@@ -20,7 +20,7 @@ public class Server {
         });
         enableDebugScreen();
 
-        FilteredDataProvider provider = new RandomProvider(); //TODO: adjust when real provider is ready
+        FilteredDataProvider provider = new RandomProvider(500000); //TODO: adjust when real provider is ready
 
         DataController dataController = new DataController(provider);
 
@@ -34,9 +34,7 @@ public class Server {
     }
 
     public static class Config {
-        public static final String CONTENT_TYPE_JSON = "";
-
         public static final String PATH_DATA = "/data/*";
-        public static final String PATH_ROUTE = "/route/*";
+        public static final String ROUTE_ROUTE = "/route/*";
     }
 }
