@@ -45,5 +45,10 @@
             <artifactId>osm-provider</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>de.hsnr.osm2018</groupId>
+            <artifactId>osm-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

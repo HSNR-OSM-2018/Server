@@ -1,0 +1,71 @@
+package de.hsnr.osm2018.server.controller;
+
+import de.hsnr.osm2018.core.algoritms.AStar;
+import de.hsnr.osm2018.data.data.FilteredDataProvider;
+import de.hsnr.osm2018.data.graph.Node;
+import de.hsnr.osm2018.data.graph.NodeContainer;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import spark.Request;
+import spark.Response;
+
+public class RouteController extends JSONController {
+
+    private FilteredDataProvider mProvider;
+
+    public RouteController(FilteredDataProvider provider) {
+        this.mProvider = provider;
+    }
+
+    @Override
+    public Object handle(Request request, Response response) throws Exception {
+        String[] path = request.pathInfo().substring(1).split("/");
+        switch (path[1]) {
+            case "node":
+                return handleNode(request, response, path);
+            default:
+                return error(response, "route not found");
+        }
+    }
+
+
+    private JSONObject handleNode(Request request, Response response, String[] path) {
+        if (path.length < 4) {
+            return error(response, "invalid route. usage: '/data/point/:start/:destination/'");
+        }
+        Node start, destination;
+        try {
+            start = getNode(path[2]);
+        } catch (Exception e) {
+            return error(response, "start node not found");
+        }
+        try {
+            destination = getNode(path[3]);
+        } catch (Exception e) {
+            return error(response, "destination node not found");
+        }
+        AStar algorithm = new AStar();
+        algorithm.runAStar(mProvider.getGraph(), start, destination);
+        JSONArray data = new JSONArray();
+        int id = 0;
+        for (NodeContainer n : algorithm.getPath(start, destination)) {
+            id++;
+            JSONObject element = new JSONObject();
+            element.put("id", id);
+            element.put("lat", n.getLatitude());
+            element.put("lon", n.getLongitude());
+            element.put("node", n.getId());
+            element.put("w", 0);
+            data.put(element);
+        }
+        return success(response, "path data", data);
+    }
+
+    private Node getNode(String requestValue) {
+        Node node = mProvider.getGraph().getNode(Long.valueOf(requestValue));
+        if (node == null) {
+            throw new NumberFormatException("invalid node id");
+        }
+        return node;
+    }
+}

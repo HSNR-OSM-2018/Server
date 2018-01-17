@@ -1,8 +1,9 @@
 package de.hsnr.osm2018.server;
 
 import de.hsnr.osm2018.data.data.FilteredDataProvider;
-import de.hsnr.osm2018.provider.provider.RandomProvider;
+import de.hsnr.osm2018.provider.provider.PbfProvider;
 import de.hsnr.osm2018.server.controller.DataController;
+import de.hsnr.osm2018.server.controller.RouteController;
 
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
@@ -20,11 +21,10 @@ public class Server {
         });
         enableDebugScreen();
 
-        FilteredDataProvider provider = new RandomProvider(500000); //TODO: adjust when real provider is ready
+        FilteredDataProvider provider = new PbfProvider("ddorf.pbf"); //TODO: adjust when real provider is ready
 
-        DataController dataController = new DataController(provider);
-
-        get(Config.PATH_DATA, dataController);
+        get(Config.PATH_DATA, new DataController(provider));
+        get(Config.ROUTE_ROUTE, new RouteController(provider));
 
         System.out.println("Server is running");
     }
@@ -34,7 +34,7 @@ public class Server {
     }
 
     public static class Config {
-        public static final String PATH_DATA = "/data/*";
-        public static final String ROUTE_ROUTE = "/route/*";
+        static final String PATH_DATA = "/data/*";
+        static final String ROUTE_ROUTE = "/route/*";
     }
 }
