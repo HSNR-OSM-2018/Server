@@ -1,7 +1,7 @@
 package de.hsnr.osm2018.server;
 
 import de.hsnr.osm2018.data.data.FilteredDataProvider;
-import de.hsnr.osm2018.provider.RandomProvider;
+import de.hsnr.osm2018.provider.provider.RandomProvider;
 import de.hsnr.osm2018.server.controller.DataController;
 
 import static spark.Spark.*;
