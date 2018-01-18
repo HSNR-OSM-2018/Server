@@ -30,22 +30,34 @@ public class RouteController extends JSONController {
 
 
     private JSONObject handleNode(Request request, Response response, String[] path) {
-        if (path.length < 4) {
-            return error(response, "invalid route. usage: '/data/point/:start/:destination/'");
+        if (path.length < 5) {
+            return error(response, "invalid route. usage: '/data/point/:<shortest|fastest>/:start/:destination/'");
+        }
+        boolean shortest;
+        if (path[2].equalsIgnoreCase("shortest")) {
+            shortest = true;
+        } else if (path[2].equalsIgnoreCase("fastest")) {
+            shortest = false;
+        } else {
+            return error(response, "Invalid value for type. allowed values are: shortest, fastest");
         }
         Node start, destination;
         try {
-            start = getNode(path[2]);
+            start = getNode(path[3]);
         } catch (Exception e) {
             return error(response, "start node not found");
         }
         try {
-            destination = getNode(path[3]);
+            destination = getNode(path[4]);
         } catch (Exception e) {
             return error(response, "destination node not found");
         }
         AStar algorithm = new AStar();
-        algorithm.runAStar(mProvider.getGraph(), start, destination);
+        if (shortest) {
+            algorithm.runAStar(mProvider.getGraph(), start, destination);
+        } else {
+            algorithm.runAStarWithSpeed(mProvider.getGraph(), start, destination);
+        }
         JSONArray data = new JSONArray();
         int id = 0;
         for (NodeContainer n : algorithm.getPath(start, destination)) {
