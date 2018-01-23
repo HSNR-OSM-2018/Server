@@ -1,6 +1,6 @@
 package de.hsnr.osm2018.server.controller;
 
-import de.hsnr.osm2018.data.data.FilteredDataProvider;
+import de.hsnr.osm2018.data.provider.FilteredDataProvider;
 import org.json.JSONObject;
 import spark.Request;
 import spark.Response;

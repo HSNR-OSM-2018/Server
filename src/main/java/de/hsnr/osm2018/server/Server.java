@@ -1,8 +1,7 @@
 package de.hsnr.osm2018.server;
 
-import de.hsnr.osm2018.data.data.FilteredDataProvider;
+import de.hsnr.osm2018.data.provider.FilteredDataProvider;
 import de.hsnr.osm2018.provider.provider.PbfProvider;
-import de.hsnr.osm2018.provider.provider.SerializeProvider;
 import de.hsnr.osm2018.server.controller.DataController;
 import de.hsnr.osm2018.server.controller.RouteController;
 
@@ -17,20 +16,22 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 public class Server {
 
     private Server() throws IOException {
+        /* load the graph into memory */
+        System.out.println("Loading graph...");
+        long start = System.currentTimeMillis();
+        FilteredDataProvider provider = new PbfProvider("duesseldorf.pbf"); //TODO: adjust when real provider is ready
+        long time = System.currentTimeMillis() - start;
+        System.out.println("Graph loaded in " + (time / 1000) + " seconds");
+
+        /* configure static content */
         staticFiles.location("/public");
         staticFiles.expireTime(300L);
-
         before("*", (request, response) -> {
             if (!request.pathInfo().endsWith("/")) {
                 response.redirect(request.pathInfo() + "/");
             }
         });
         enableDebugScreen();
-        System.out.println("Loading graph...");
-        long start = System.currentTimeMillis();
-        FilteredDataProvider provider = new PbfProvider("ddorf.pbf"); //TODO: adjust when real provider is ready
-        long time = System.currentTimeMillis() - start;
-        System.out.println("Graph loaded in " + (time / 1000) + " seconds");
 
         get(Config.PATH_DATA, new DataController(provider));
         get(Config.ROUTE_ROUTE, new RouteController(provider));
