@@ -68,7 +68,7 @@ public class RouteController extends JSONController {
             element.put("lat", n.getLatitude());
             element.put("lon", n.getLongitude());
             element.put("node", n.getId());
-            element.put("w", 0);
+            element.put("w", n.getD());
             data.put(element);
         }
         return success(response, "path data", data);
@@ -112,7 +112,7 @@ public class RouteController extends JSONController {
             element.put("lat", n.getLatitude());
             element.put("lon", n.getLongitude());
             element.put("node", n.getId());
-            element.put("w", 0);
+            element.put("w", n.getD());
             data.put(element);
         }
         return success(response, "path data", data);
