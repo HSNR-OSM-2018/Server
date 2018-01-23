@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="../assets/css/ol.css" />
+    <link rel="stylesheet" href="./assets/css/ol.css" />
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" />
     <title>OpenStreetMap-Projekt</title>
@@ -59,7 +59,8 @@
     <script src="https://openlayers.org/en/v4.6.4/build/ol.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../main.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
   </head>
   <body>
     <div class="container">
@@ -86,6 +87,7 @@
     </select>
               </div>
               <button type="button" class="btn btn-default" onclick="doSuche();">Suchen</button>
+              <span id="main-loader" style="margin-left: 10px;line-height: 10px;display: none;"><i class="fa fa-spinner fa-pulse fa-spin"></i></span>
             </form>
             </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->

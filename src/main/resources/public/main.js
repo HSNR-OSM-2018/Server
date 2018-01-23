@@ -1370,6 +1370,7 @@ function setZiel(callback) {
 }
 
 function doSuche() {
+    $("#main-loader").fadeIn(0);
     clearRoute();
     setStart(function() {
         setZiel(function() {
@@ -1391,6 +1392,10 @@ function setRoutefromSuche() {
         drawZiel();
         drawPoints();
         drawLines();
+        $("#main-loader").fadeOut(0);
+    }).fail(function(res) {
+        bootbox.alert(res.responseJSON.message);
+        $("#main-loader").fadeOut(0);
     });
 }
 
