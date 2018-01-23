@@ -1159,7 +1159,8 @@ function hexToRgb(hex) {
 
 var styleLineFunction = function(feature) {
     var colortouse = '';
-    var switcher = anzahlrouten % 10;
+    var geometry = feature.getGeometry();
+    var switcher = feature.get("name") % 10;
     switch (switcher) {
         case 0:
             colortouse = '#0080FF';
@@ -1198,7 +1199,7 @@ var styleLineFunction = function(feature) {
             colortouse = '#01DF01';
     }
     colortouse = 'rgba('+hexToRgb(colortouse).r+','+hexToRgb(colortouse).g+','+hexToRgb(colortouse).b+',0.5)';
-    var geometry = feature.getGeometry();
+
     var styles = [
         // linestring
         new ol.style.Style({
@@ -1234,7 +1235,7 @@ function drawLines() {
         source: new ol.source.Vector({
             features: [new ol.Feature({
                 geometry: new ol.geom.LineString(markers[anzahlrouten], 'XY'),
-                name: 'Line',
+                name: anzahlrouten,
             })]
         }),
         style: styleLineFunction
