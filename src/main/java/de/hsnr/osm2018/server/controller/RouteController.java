@@ -1,15 +1,17 @@
 package de.hsnr.osm2018.server.controller;
 
+import de.hsnr.osm2018.core.algoritms.DistanceAStar;
 import de.hsnr.osm2018.core.algoritms.AStar;
+import de.hsnr.osm2018.core.algoritms.SpeedAStar;
+import de.hsnr.osm2018.data.path.PathContainer;
 import de.hsnr.osm2018.data.provider.FilteredDataProvider;
 import de.hsnr.osm2018.data.graph.Node;
-import de.hsnr.osm2018.data.graph.NodeContainer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class RouteController extends JSONController {
 
@@ -55,17 +57,19 @@ public class RouteController extends JSONController {
         } catch (Exception e) {
             return error(response, "destination node not found");
         }
-        AStar algorithm = new AStar();
+        AStar algorithm;
         boolean success;
         if (shortest) {
-            success = algorithm.runAStar(mProvider.getGraph(), start, destination);
+            algorithm = new DistanceAStar(mProvider.getGraph());
+            success = algorithm.run(start, destination);
         } else {
-            success = algorithm.runAStarWithSpeed(mProvider.getGraph(), start, destination);
+            algorithm = new SpeedAStar(mProvider.getGraph());
+            success = algorithm.run(start, destination);
         }
         if (!success) {
             return error(response, "path not found");
         }
-        return success(response, "path data", buildPath(algorithm.getPath(start, destination)));
+        return success(response, "path data", buildPath(algorithm.getPath()));
     }
 
     private JSONObject handlePoint(Request request, Response response, String[] path) {
@@ -92,17 +96,19 @@ public class RouteController extends JSONController {
         Node start = mProvider.getGraph().getNearest(startLatitude, startLongitude),
              destination = mProvider.getGraph().getNearest(destinationLatitude, destinationLongitude);
         System.out.println("selected nodes: " + start + " - " + destination);
-        AStar algorithm = new AStar();
+        AStar algorithm;
         boolean success;
         if (shortest) {
-            success = algorithm.runAStar(mProvider.getGraph(), start, destination);
+            algorithm = new DistanceAStar(mProvider.getGraph());
+            success = algorithm.run(start, destination);
         } else {
-            success = algorithm.runAStarWithSpeed(mProvider.getGraph(), start, destination);
+            algorithm = new SpeedAStar(mProvider.getGraph());
+            success = algorithm.run(start, destination);
         }
         if (!success) {
             return error(response, "path not found");
         }
-        return success(response, "path data", buildPath(algorithm.getPath(start, destination)));
+        return success(response, "path data", buildPath(algorithm.getPath()));
     }
 
     private Node getNode(String requestValue) {
@@ -121,17 +127,17 @@ public class RouteController extends JSONController {
         return value;
     }
 
-    private JSONArray buildPath(ArrayList<NodeContainer> path) {
+    private JSONArray buildPath(List<PathContainer> path) {
         JSONArray data = new JSONArray();
         int id = 0;
-        for (NodeContainer n : path) {
+        for (PathContainer n : path) {
             id++;
             JSONObject element = new JSONObject();
             element.put("id", id);
-            element.put("lat", n.getLatitude());
-            element.put("lon", n.getLongitude());
-            element.put("node", n.getId());
-            element.put("w", n.getD());
+            element.put("lat", n.getNode().getLatitude());
+            element.put("lon", n.getNode().getLongitude());
+            element.put("node", n.getNode().getId());
+            element.put("w", n.getDistance());
             data.put(element);
         }
         return data;
