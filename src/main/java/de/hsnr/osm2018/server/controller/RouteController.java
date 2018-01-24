@@ -60,7 +60,6 @@ public class RouteController extends JSONController {
         if (destination == null) {
             destination = getNode(graph, destinationLatitude, destinationLongitude);
         }
-        logger.info("navigating from node #" + start.getId() + " to node #" + destination.getId());
         PathFinder algorithm;
         switch (getParameter(request, "algorithm").toLowerCase()) {
             case "shortest":
@@ -72,6 +71,7 @@ public class RouteController extends JSONController {
             default:
                 return error(response, "algorithm not supported");
         }
+        logger.info("navigating with algorithm " + algorithm.getClass().getName() + " from node #" + start.getId() + " (" + destination.getEdges().size() + " edges) to node #" + destination.getId() + " (" + destination.getEdges().size() + " edges)");
         boolean success = algorithm.run(start, destination);
         if (!success) {
             return error(response, "path not found");
