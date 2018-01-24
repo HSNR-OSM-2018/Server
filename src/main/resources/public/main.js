@@ -1441,7 +1441,7 @@ function setZiel(callback) {
     var city = ol.proj.transform([ middlon,  middlat], 'EPSG:4326', 'EPSG:3857');
     var view = new ol.View({
         center: city,
-        zoom: zoomstufe
+        zoom: zoomstufe+1
     });
     maper.setView(view);
             callback();
