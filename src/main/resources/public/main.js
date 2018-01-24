@@ -1,4 +1,4 @@
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+﻿/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Latitude/longitude spherical geodesy tools                         (c) Chris Veness 2002-2017  */
 /*                                                                                   MIT Licence  */
 /* www.movable-type.co.uk/scripts/latlong.html                                                    */
@@ -1325,9 +1325,10 @@ function setNotes() {
 
             elmid = element['id'] - 1;
 
-            $("#notes").append("<p>" + elmid + ") <b>" + richtungsaw + "der Straße " + Math.round(distance) + "m folgen</b>  <br/>->(" + element['lat'] + "," + element['lon'] + ") </p>");
+            $("#notes").append("<p>" + elmid + ") <b>" + richtungsaw + "der Straße " + Math.round(distance) + "m folgen</b>  <br/>->(" + element['lat'] + "," + element['lon'] + ") <br/>OSM:"+element['node']+"<hr/></p>");
+    
         } else {
-            $("#notes").append("<p><b>Start:(" + element['lat'] + "," + element['lon'] + ")</b> </p>");
+            $("#notes").append("<p><b>Start:(" + element['lat'] + "," + element['lon'] + ")</b><br/>OSM:"+element['node']+"<hr/></p>");
         }
 
         countnotes++;
