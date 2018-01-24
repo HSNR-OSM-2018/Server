@@ -1,6 +1,8 @@
 package de.hsnr.osm2018.server.controller;
 
 import de.hsnr.osm2018.data.provider.FilteredDataProvider;
+import de.hsnr.osm2018.server.helper.JSONController;
+import de.hsnr.osm2018.server.helper.ParameterException;
 import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
@@ -14,56 +16,22 @@ public class DataController extends JSONController {
     }
 
     @Override
-    public Object handle(Request request, Response response) throws Exception {
+    public JSONObject process(Request request, Response response) throws ParameterException {
         String[] path = request.pathInfo().substring(1).split("/");
         switch (path[1]) {
             case "point":
-                return handlePoint(request, response, path);
+                return handlePoint(request, response);
             default:
                 return error(response, "route not found");
         }
     }
 
-    private JSONObject handlePoint(Request request, Response response, String[] path) {
-        if (path.length < 4) {
-            return error(response, "invalid route. usage: '/data/point/:latitude/:longitude/'");
-        }
-        double latitude;
-        try {
-            latitude = getCoordinateValue(path[2]);
-        } catch (NumberFormatException e) {
-            return error(response, "invalid value for latitude");
-        }
-        double longitude;
-        try {
-            longitude = getCoordinateValue(path[3]);
-        } catch (NumberFormatException e) {
-            return error(response, "invalid value for longitude");
-        }
+    private JSONObject handlePoint(Request request, Response response) throws ParameterException {
+        double latitude = getCoordinateValue(request, "latitude"), longitude = getCoordinateValue(request, "longitude");
         double vicinityRadius = 0.01D; //TODO: adjust to a more realistic value
-        if (request.queryParams().contains("radius")) {
-            try {
-                vicinityRadius = getRadiusValue(request.queryParams("radius"), 1D);
-            } catch (NumberFormatException e) {
-                return error(response, "invalid value for radius");
-            }
+        if (hasParameter(request, "radius")) {
+            vicinityRadius = getRadiusValue(request, "radius", 1D);
         }
         return success(response, "graph around the point", mProvider.getGraph(latitude, longitude, vicinityRadius).toJSON());
-    }
-
-    private double getCoordinateValue(String requestValue) throws NumberFormatException {
-        double value = Double.parseDouble(requestValue);
-        if (value > 180D || value < -180D) {
-            throw new NumberFormatException("value out of bound");
-        }
-        return value;
-    }
-
-    private double getRadiusValue(String requestValue, double maxValue) throws NumberFormatException {
-        double value = Double.parseDouble(requestValue);
-        if (value < 0D || value > maxValue) {
-            throw new NumberFormatException("value out of bound");
-        }
-        return value;
     }
 }

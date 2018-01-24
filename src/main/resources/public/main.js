@@ -932,6 +932,16 @@ Dms.compassPoint = function(bearing, precision) {
 
 /*-- own code --*/
 
+function serialize(obj) {
+    var str = [];
+    for(var p in obj) {
+        if (obj.hasOwnProperty(p)) {
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+        }
+    }
+    return str.join("&");
+};
+
 var maper;
 var globalweight = 0.0;
 var globalval = new Array();
@@ -1012,7 +1022,7 @@ $(function() {
 
 
 function setup(zoomstufe) {
-    //setup 
+    //setup
     var layer = new ol.layer.Tile({
         source: new ol.source.OSM()
     });
@@ -1326,7 +1336,7 @@ function setNotes() {
             elmid = element['id'] - 1;
 
             $("#notes").append("<p>" + elmid + ") <b>" + richtungsaw + "der Straße " + Math.round(distance) + "m folgen</b>  <br/>->(" + element['lat'] + "," + element['lon'] + ") <br/>OSM:"+element['node']+"<hr/></p>");
-    
+
         } else {
             $("#notes").append("<p><b>Start:(" + element['lat'] + "," + element['lon'] + ")</b><br/>OSM:"+element['node']+"<hr/></p>");
         }
@@ -1384,7 +1394,15 @@ function doSuche() {
 }
 
 function setRoutefromSuche() {
-    $.getJSON("http://localhost:4567/route/point/" + $("#routetyp").val() + "/" + startlat + "/" + startlon + "/" + ziellat + "/" + ziellon + "/", function(res) {
+    var path = "http://localhost:4567/route/";
+    var parameter = {
+        algorithm: $("#routetyp").val(),
+        startLatitude: startlat,
+        startLongitude: startlon,
+        destinationLatitude: ziellat,
+        destinationLongitude: ziellon
+    };
+    $.getJSON(path + "?" + serialize(parameter), function(res) {
         $.each(res.data, function(id, val) {
             setPoint(val['lat'], val['lon']);
             setweight(val['w']);
@@ -1409,7 +1427,13 @@ function getDist(lat1, lon1, lat2, lon2) {
 }
 
 function addNodeRoute(type, startNode, destinationNode) {
-    $.getJSON("http://localhost:4567/route/node/" + type + "/" + startNode + "/" + destinationNode + "/", function(res) {
+    var path = "http://localhost:4567/route/";
+    var parameter = {
+        algorithm: type,
+        startNode: startNode,
+        destinationNode: destinationNode
+    };
+    $.getJSON(path + "?" + serialize(parameter), function(res) {
         anzahlrouten++;
         globalval[anzahlrouten] = [];
         iconFeatures[anzahlrouten] = [];
@@ -1427,7 +1451,15 @@ function addNodeRoute(type, startNode, destinationNode) {
 }
 
 function addPointRoute(type, startLatitude, startLongitude, destinationLatitude, destinationLongitude) {
-    $.getJSON("http://localhost:4567/route/point/" + type + "/" + startLatitude + "/" + startLongitude + "/" + destinationLatitude + "/" + destinationLongitude + "/", function(res) {
+    var path = "http://localhost:4567/route/";
+    var parameter = {
+        algorithm: type,
+        startLatitude: startLatitude,
+        startLongitude: startLongitude,
+        destinationLatitude: destinationLatitude,
+        destinationLongitude: destinationLongitude
+    };
+    $.getJSON(path + "?" + serialize(parameter), function(res) {
         anzahlrouten++;
         globalval[anzahlrouten] = [];
         iconFeatures[anzahlrouten] = [];
