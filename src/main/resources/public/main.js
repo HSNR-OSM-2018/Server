@@ -1376,6 +1376,74 @@ function setZiel(callback) {
                 ziellon = val['lon'];
                 zielosm = val['osm_id'];
             });
+               var middlon =(parseFloat(startlon)+parseFloat(ziellon))/2;
+    var middlat =(parseFloat(startlat)+parseFloat(ziellat))/2;
+    var middist = getDist(startlat,startlon,ziellat,ziellon);
+    var zoomstufe;
+   switch (true) {
+    case (middist<298): 
+        zoomstufe = 19;
+        break;
+    case (middist<596): 
+        zoomstufe = 18;
+        break;
+    case (middist<1193): 
+        zoomstufe = 17;
+        break;
+    case (middist<2387): 
+        zoomstufe = 16;
+        break;
+    case (middist<4773): 
+        zoomstufe = 15;
+        break;
+    case (middist<9547): 
+        zoomstufe = 14;
+        break;
+    case (middist<19093): 
+        zoomstufe = 13;
+        break;
+    case (middist<38187): 
+        zoomstufe = 12;
+        break;
+    case (middist<76373): 
+        zoomstufe = 11;
+        break;
+    case (middist<152746): 
+        zoomstufe = 10;
+        break;
+    case (middist<305492): 
+        zoomstufe = 9;
+        break;
+    case (middist<610984): 
+        zoomstufe = 8;
+        break;
+    case (middist<1222000): 
+        zoomstufe = 7;
+        break;
+    case (middist<24444000): 
+        zoomstufe = 6;
+        break;
+    case (middist<48888000): 
+        zoomstufe = 5;
+        break;
+    case (middist<9776000): 
+        zoomstufe = 4;
+        break;
+    case (middist<1955100): 
+        zoomstufe = 3;
+        break;
+    case (middist<39103000): 
+        zoomstufe = 2;
+        break;
+    default: 
+        zoomstufe = 1;
+}
+    var city = ol.proj.transform([ middlon,  middlat], 'EPSG:4326', 'EPSG:3857');
+    var view = new ol.View({
+        center: city,
+        zoom: zoomstufe
+    });
+    maper.setView(view);
             callback();
         });
     }
