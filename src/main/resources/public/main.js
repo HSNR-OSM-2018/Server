@@ -1172,41 +1172,41 @@ var styleLineFunction = function(feature) {
     var geometry = feature.getGeometry();
     var switcher = feature.get("name") % 10;
     switch (switcher) {
-        case 0:
-            colortouse = '#0080FF';
+         case 0:
+            colortouse = '#800000';
             break;
         case 1:
-            colortouse = '#58FAF4';
+             colortouse = '#008000';
             break;
         case 2:
-            colortouse = '#FFBF00';
+            colortouse = '#000080';
             break;
         case 3:
-            colortouse = '#0B610B';
-            break;
-        case 4:
-            colortouse = '#8A0829';
-            break;
-        case 5:
             colortouse = '#FF0000';
             break;
+        case 4:
+            colortouse = '#00FF00';
+            break;
+        case 5:
+            colortouse = '#008080';
+            break;
         case 6:
-            colortouse = '#C8FE2E';
+            colortouse = '#800080';
             break;
         case 7:
-            colortouse = '#848484';
+            colortouse = '#808000';
             break;
         case 8:
-            colortouse = '#01DF01';
+           colortouse = '#00FFFF';
             break;
         case 9:
             colortouse = '#FFFF00';
             break;
         case 10:
-            colortouse = '#58FA58';
+            colortouse = '#FF00FF';
             break;
         default:
-            colortouse = '#01DF01';
+            colortouse = '#800000';
     }
     colortouse = 'rgba(' + hexToRgb(colortouse).r + ',' + hexToRgb(colortouse).g + ',' + hexToRgb(colortouse).b + ',0.5)';
 
@@ -1303,40 +1303,40 @@ function setNotes() {
     var switcher = anzahlrouten % 10;
     switch (switcher) {
         case 0:
-            colortouse = '#0080FF';
+            colortouse = '#800000';
             break;
         case 1:
-            colortouse = '#58FAF4';
+             colortouse = '#008000';
             break;
         case 2:
-            colortouse = '#FFBF00';
+            colortouse = '#000080';
             break;
         case 3:
-            colortouse = '#0B610B';
-            break;
-        case 4:
-            colortouse = '#8A0829';
-            break;
-        case 5:
             colortouse = '#FF0000';
             break;
+        case 4:
+            colortouse = '#00FF00';
+            break;
+        case 5:
+            colortouse = '#008080';
+            break;
         case 6:
-            colortouse = '#C8FE2E';
+            colortouse = '#800080';
             break;
         case 7:
-            colortouse = '#848484';
+            colortouse = '#808000';
             break;
         case 8:
-            colortouse = '#01DF01';
+           colortouse = '#00FFFF';
             break;
         case 9:
             colortouse = '#FFFF00';
             break;
         case 10:
-            colortouse = '#58FA58';
+            colortouse = '#FF00FF';
             break;
         default:
-            colortouse = '#01DF01';
+            colortouse = '#800000';
     }
     $(".sidebar-left").prepend("<div class='panel-group sidebar-body' id='accordion-left" + anzahlrouten + "'> <div id='pan" + anzahlrouten + "' class='panel panel-default'> <div class='panel-heading'> <h4 class='panel-title' style='color:" + colortouse + "'> <a data-toggle='collapse' href='#properties" + anzahlrouten + "' class='collapsed'> <i class='fa fa-list-alt'></i> Route " + anzahlrouten + " </a> </h4> </div> <div id='properties" + anzahlrouten + "' class='panel-collapse collapse'> <div class='panel-body' id='notes" + anzahlrouten + "' style='overflow: auto;max-height: 600px;'><p></p></div> </div> </div> </div>");
 
