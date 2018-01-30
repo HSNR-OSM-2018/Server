@@ -1230,7 +1230,7 @@ var styleLineFunction = function(feature) {
         dyvor = dy;
 
         rotationvor = Math.abs(Math.abs(rotation) - Math.abs(rotationvor));
-        if (rotationvor > 0.5) {
+           if((rotationvor>0.5)&&(maper.getView().getZoom()>13)){
             // arrows
             styles.push(new ol.style.Style({
                 geometry: new ol.geom.Point(start),
