@@ -1403,6 +1403,7 @@ function setNotes() {
 function setStart(callback) {
     var sadress = document.getElementById('startadresse').value;
     if (sadress != "") {
+            if(sadress.toLowerCase().indexOf("bielefeld") !== -1){bootbox.alert("Meinen Sie Krefeld?");window.open("https://de.wikipedia.org/wiki/Bielefeldverschw%C3%B6rung","_blank");}
         $.getJSON("https://nominatim.openstreetmap.org/?format=json&addressdetails=1&format=json&limit=1&q=" + sadress, function(data) {
             $.each(data, function(id, val) {
                 startlat = val['lat'];
@@ -1419,6 +1420,7 @@ function setStart(callback) {
 function setZiel(callback) {
     var sadress = document.getElementById('zieladresse').value;
     if (sadress != "") {
+            if(sadress.toLowerCase().indexOf("bielefeld") !== -1){bootbox.alert("Meinen Sie Krefeld?");window.open("https://de.wikipedia.org/wiki/Bielefeldverschw%C3%B6rung","_blank");}
         $.getJSON("https://nominatim.openstreetmap.org/?format=json&addressdetails=1&format=json&limit=1&q=" + sadress, function(data) {
             $.each(data, function(id, val) {
                 ziellat = val['lat'];
