@@ -1208,7 +1208,7 @@ var styleLineFunction = function(feature) {
         default:
             colortouse = '#01DF01';
     }
-    colortouse = 'rgba('+hexToRgb(colortouse).r+','+hexToRgb(colortouse).g+','+hexToRgb(colortouse).b+',0.5)';
+    colortouse = 'rgba(' + hexToRgb(colortouse).r + ',' + hexToRgb(colortouse).g + ',' + hexToRgb(colortouse).b + ',0.5)';
 
     var styles = [
         // linestring
@@ -1219,21 +1219,29 @@ var styleLineFunction = function(feature) {
             })
         })
     ];
-
+    var dxvor = 0.1;
+    var dyvor = 0.1;
     geometry.forEachSegment(function(start, end) {
         var dx = end[0] - start[0];
         var dy = end[1] - start[1];
         var rotation = Math.atan2(dy, dx);
-        // arrows
-        styles.push(new ol.style.Style({
-            geometry: new ol.geom.Point(end),
-            image: new ol.style.Icon({
-                src: 'https://openlayers.org/en/v4.6.4/examples/data/arrow.png',
-                anchor: [0.75, 0.5],
-                rotateWithView: true,
-                rotation: -rotation
-            })
-        }));
+        var rotationvor = Math.atan2(dyvor, dxvor);
+        dxvor = dx;
+        dyvor = dy;
+
+        rotationvor = Math.abs(Math.abs(rotation) - Math.abs(rotationvor));
+        if (rotationvor > 0.5) {
+            // arrows
+            styles.push(new ol.style.Style({
+                geometry: new ol.geom.Point(start),
+                image: new ol.style.Icon({
+                    src: 'https://openlayers.org/en/v4.6.4/examples/data/arrow.png',
+                    anchor: [0.75, 0.5],
+                    rotateWithView: true,
+                    rotation: -rotation
+                })
+            }));
+        }
     });
 
     return styles;
@@ -1291,7 +1299,47 @@ function setDemo() {
 
 // Setzt die Routenbeschreibung
 function setNotes() {
-    document.getElementById('notes').innerHTML = '';
+    document.getElementById('accordion-left').innerHTML = '';
+    var switcher = anzahlrouten % 10;
+    switch (switcher) {
+        case 0:
+            colortouse = '#0080FF';
+            break;
+        case 1:
+            colortouse = '#58FAF4';
+            break;
+        case 2:
+            colortouse = '#FFBF00';
+            break;
+        case 3:
+            colortouse = '#0B610B';
+            break;
+        case 4:
+            colortouse = '#8A0829';
+            break;
+        case 5:
+            colortouse = '#FF0000';
+            break;
+        case 6:
+            colortouse = '#C8FE2E';
+            break;
+        case 7:
+            colortouse = '#848484';
+            break;
+        case 8:
+            colortouse = '#01DF01';
+            break;
+        case 9:
+            colortouse = '#FFFF00';
+            break;
+        case 10:
+            colortouse = '#58FA58';
+            break;
+        default:
+            colortouse = '#01DF01';
+    }
+    $(".sidebar-left").prepend("<div class='panel-group sidebar-body' id='accordion-left" + anzahlrouten + "'> <div id='pan" + anzahlrouten + "' class='panel panel-default'> <div class='panel-heading'> <h4 class='panel-title' style='color:" + colortouse + "'> <a data-toggle='collapse' href='#properties" + anzahlrouten + "' class='collapsed'> <i class='fa fa-list-alt'></i> Route " + anzahlrouten + " </a> </h4> </div> <div id='properties" + anzahlrouten + "' class='panel-collapse collapse'> <div class='panel-body' id='notes" + anzahlrouten + "' style='overflow: auto;max-height: 600px;'><p></p></div> </div> </div> </div>");
+
     var countnotes = 0;
     var distance = 0.0;
     var richtung = "";
@@ -1299,6 +1347,7 @@ function setNotes() {
     var totaldistance = 0.0;
     var latdist = 0.0;
     var londist = 0.0;
+
     globalval[anzahlrouten].forEach(function(element) {
         if (countnotes > 0) {
             distance = getDist(globalval[anzahlrouten][countnotes - 1]['lat'], globalval[anzahlrouten][countnotes - 1]['lon'], globalval[anzahlrouten][countnotes]['lat'], globalval[anzahlrouten][countnotes]['lon']);
@@ -1335,17 +1384,17 @@ function setNotes() {
 
             elmid = element['id'] - 1;
 
-            $("#notes").append("<p>" + elmid + ") <b>" + richtungsaw + "der Straße " + Math.round(distance) + "m folgen</b>  <br/>->(" + element['lat'] + "," + element['lon'] + ") <br/>OSM:"+element['node']+"<hr/></p>");
-
+            $("#notes" + anzahlrouten).append("<p>" + elmid + ") <b>" + richtungsaw + "der Straße " + Math.round(distance) + "m folgen</b>  <br/>->(" + element['lat'] + "," + element['lon'] + ") <br/>OSM:" + element['node'] + "<hr/></p>");
         } else {
-            $("#notes").append("<p><b>Start:(" + element['lat'] + "," + element['lon'] + ")</b><br/>OSM:"+element['node']+"<hr/></p>");
+            $("#notes" + anzahlrouten).append("<p><b>Start:(" + element['lat'] + "," + element['lon'] + ")</b> </p>");
+
         }
 
         countnotes++;
     });
     totaldistance = totaldistance / 1000;
-    $("#notes").append("<p><b>Ziel:(" + globalval[anzahlrouten][countnotes - 1]['lat'] + "," + globalval[anzahlrouten][countnotes - 1]['lon'] + ")</b> </p>");
-    $("#notes").append("<p>Gesamtlänge der Route: " + totaldistance + "km <br/>über " + countnotes + " Knoten</p>");
+    $("#notes" + anzahlrouten).append("<p><b>Ziel:(" + globalval[anzahlrouten][countnotes - 1]['lat'] + "," + globalval[anzahlrouten][countnotes - 1]['lon'] + ")</b> </p>");
+    $("#notes" + anzahlrouten).append("<p>Gesamtlänge der Route: " + totaldistance + "km <br/>über " + countnotes + " Knoten</p>");
 }
 
 
@@ -1478,7 +1527,7 @@ function setRoutefromSuche() {
         });
         drawStart();
         drawZiel();
-        drawPoints();
+        //drawPoints();
         drawLines();
         $("#main-loader").fadeOut(0);
     }).fail(function(res) {
