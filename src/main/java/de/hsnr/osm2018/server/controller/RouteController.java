@@ -52,8 +52,15 @@ public class RouteController extends JSONController {
         } else {
             return error(response, "no destination");
         }
-        //TODO: add parameter and default values for global- and local vicinity range
-        graph = mProvider.getGraph(startLatitude, startLongitude, destinationLatitude, destinationLongitude, 10D);
+        double globalVicinityRange = 50 * 1000D;
+        if (hasParameter(request, "globalVicinity")) {
+            globalVicinityRange = getDoubleParameter(request, "globalVicinity");
+        }
+        double localVicinity = 20 * 1000D;
+        if (hasParameter(request, "localVicinity")) {
+            localVicinity = getDoubleParameter(request, "localVicinity");
+        }
+        graph = mProvider.getGraph(startLatitude, startLongitude, destinationLatitude, destinationLongitude, globalVicinityRange, localVicinity);
         if (start == null) {
             start = getNode(graph, startLatitude, startLongitude);
         }
