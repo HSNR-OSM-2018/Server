@@ -19,7 +19,7 @@ public class Server {
         /* load the graph into memory */
         System.out.println("Loading graph...");
         long start = System.currentTimeMillis();
-        FilteredDataProvider provider = new PbfProvider("newDdorfFilter.pbf"); //TODO: adjust when real provider is ready
+        FilteredDataProvider provider = new PbfProvider("DdorfNode.pbf", "DdorfWay.pbf");
         long time = System.currentTimeMillis() - start;
         System.out.println("Graph loaded in " + (time / 1000) + " seconds");
 
