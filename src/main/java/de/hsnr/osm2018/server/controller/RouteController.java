@@ -5,6 +5,7 @@ import de.hsnr.osm2018.core.algoritms.SpeedAStar;
 import de.hsnr.osm2018.data.graph.Graph;
 import de.hsnr.osm2018.data.path.PathContainer;
 import de.hsnr.osm2018.data.path.PathFinder;
+import de.hsnr.osm2018.data.path.PathGraphContainer;
 import de.hsnr.osm2018.data.provider.FilteredDataProvider;
 import de.hsnr.osm2018.data.graph.Node;
 import de.hsnr.osm2018.server.helper.JSONController;
@@ -60,12 +61,13 @@ public class RouteController extends JSONController {
         if (hasParameter(request, "localVicinity")) {
             localVicinity = getDoubleParameter(request, "localVicinity");
         }
-        graph = mProvider.getGraph(startLatitude, startLongitude, destinationLatitude, destinationLongitude, globalVicinityRange, localVicinity);
+        PathGraphContainer container = mProvider.getPathGraphContainer(startLatitude, startLongitude, destinationLatitude, destinationLongitude, globalVicinityRange, localVicinity);
+        graph = container.getGraph();
         if (start == null) {
-            start = getNode(graph, startLatitude, startLongitude);
+            start = container.getStart();
         }
         if (destination == null) {
-            destination = getNode(graph, destinationLatitude, destinationLongitude);
+            destination = container.getDestination();
         }
         PathFinder algorithm;
         switch (getParameter(request, "algorithm").toLowerCase()) {
