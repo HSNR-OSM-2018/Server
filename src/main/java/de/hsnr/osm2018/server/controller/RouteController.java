@@ -1,5 +1,6 @@
 package de.hsnr.osm2018.server.controller;
 
+import de.hsnr.osm2018.core.algoritms.DijkstraAStar;
 import de.hsnr.osm2018.core.algoritms.DistanceAStar;
 import de.hsnr.osm2018.core.algoritms.SpeedAStar;
 import de.hsnr.osm2018.data.graph.Graph;
@@ -53,15 +54,7 @@ public class RouteController extends JSONController {
         } else {
             return error(response, "no destination");
         }
-        double globalVicinityRange = 50 * 1000D;
-        if (hasParameter(request, "globalVicinity")) {
-            globalVicinityRange = getDoubleParameter(request, "globalVicinity");
-        }
-        double localVicinity = 20 * 1000D;
-        if (hasParameter(request, "localVicinity")) {
-            localVicinity = getDoubleParameter(request, "localVicinity");
-        }
-        PathGraphContainer container = mProvider.getPathGraphContainer(startLatitude, startLongitude, destinationLatitude, destinationLongitude, globalVicinityRange, localVicinity);
+        PathGraphContainer container = mProvider.getPathGraphContainer(startLatitude, startLongitude, destinationLatitude, destinationLongitude);
         graph = container.getGraph();
         if (start == null) {
             start = container.getStart();
@@ -76,6 +69,9 @@ public class RouteController extends JSONController {
                 break;
             case "fastest":
                 algorithm = new SpeedAStar(graph);
+                break;
+            case "dijkstra":
+                algorithm = new DijkstraAStar(graph);
                 break;
             default:
                 return error(response, "algorithm not supported");

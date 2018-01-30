@@ -82,8 +82,9 @@
               <div class="form-group">
                 <input type="text" class="form-control" name="start" placeholder="Start" id="startadresse" value="Ostwall 155, Krefeld">
                 <input type="text" class="form-control" name="ziel" placeholder="Ziel" id="zieladresse" value="Reinarzstraße 49, Krefeld"> <select name="routetyp" id="routetyp" size="1">
-      <option>fastest</option>
-      <option>shortest</option>
+      <option value="fastest">Fastest</option>
+      <option value="shortest">Shortest</option>
+      <option value="dijkstra">Dijkstra (Do not use!!!!)</option>
     </select>
               </div>
               <button type="button" class="btn btn-default" onclick="doSuche();">Suchen</button>
