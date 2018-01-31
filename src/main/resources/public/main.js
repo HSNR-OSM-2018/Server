@@ -1302,99 +1302,117 @@ function setNotes() {
     document.getElementById('accordion-left').innerHTML = '';
     var switcher = anzahlrouten % 10;
     switch (switcher) {
-        case 0:
-            colortouse = '#800000';
-            break;
-        case 1:
-             colortouse = '#008000';
-            break;
-        case 2:
-            colortouse = '#000080';
-            break;
-        case 3:
-            colortouse = '#FF0000';
-            break;
-        case 4:
-            colortouse = '#00FF00';
-            break;
-        case 5:
-            colortouse = '#008080';
-            break;
-        case 6:
-            colortouse = '#800080';
-            break;
-        case 7:
-            colortouse = '#808000';
-            break;
-        case 8:
-           colortouse = '#00FFFF';
-            break;
-        case 9:
-            colortouse = '#FFFF00';
-            break;
-        case 10:
-            colortouse = '#FF00FF';
-            break;
-        default:
-            colortouse = '#800000';
+    case 0:
+        colortouse = '#800000';
+        break;
+    case 1:
+        colortouse = '#008000';
+        break;
+    case 2:
+        colortouse = '#000080';
+        break;
+    case 3:
+        colortouse = '#FF0000';
+        break;
+    case 4:
+        colortouse = '#00FF00';
+        break;
+    case 5:
+        colortouse = '#008080';
+        break;
+    case 6:
+        colortouse = '#800080';
+        break;
+    case 7:
+        colortouse = '#808000';
+        break;
+    case 8:
+        colortouse = '#00FFFF';
+        break;
+    case 9:
+        colortouse = '#FFFF00';
+        break;
+    case 10:
+        colortouse = '#FF00FF';
+        break;
+    default:
+        colortouse = '#800000';
     }
     $(".sidebar-left").prepend("<div class='panel-group sidebar-body' id='accordion-left" + anzahlrouten + "'> <div id='pan" + anzahlrouten + "' class='panel panel-default'> <div class='panel-heading'> <h4 class='panel-title' style='color:" + colortouse + "'> <a data-toggle='collapse' href='#properties" + anzahlrouten + "' class='collapsed'> <i class='fa fa-list-alt'></i> Route " + anzahlrouten + " </a> </h4> </div> <div id='properties" + anzahlrouten + "' class='panel-collapse collapse'> <div class='panel-body' id='notes" + anzahlrouten + "' style='overflow: auto;max-height: 600px;'><p></p></div> </div> </div> </div>");
-
     var countnotes = 0;
     var distance = 0.0;
+    var distance2 = 0.0;
     var richtung = "";
     var richtungwar = "";
     var totaldistance = 0.0;
     var latdist = 0.0;
     var londist = 0.0;
-
-    globalval[anzahlrouten].forEach(function(element) {
+    var vorgaengernode = startosm;
+    var appendid = 1;
+    var elmid = -1;
+    globalval[anzahlrouten].forEach(function (element) {
         if (countnotes > 0) {
-            distance = getDist(globalval[anzahlrouten][countnotes - 1]['lat'], globalval[anzahlrouten][countnotes - 1]['lon'], globalval[anzahlrouten][countnotes]['lat'], globalval[anzahlrouten][countnotes]['lon']);
-            totaldistance += distance;
             latdist = globalval[anzahlrouten][countnotes]['lat'] - globalval[anzahlrouten][countnotes - 1]['lat'];
             londist = globalval[anzahlrouten][countnotes]['lon'] - globalval[anzahlrouten][countnotes - 1]['lon'];
-
             if (latdist > 0) {
                 richtung = "n";
             } else {
                 richtung = "s";
             }
-
             if (londist > 0) {
                 richtung += "o";
             } else {
                 richtung += "w";
             }
-
-
+            var streetnameid = anzahlrouten + "street" + appendid;
             if ((richtungwar == "nw") && (richtung == "sw")) {
-                richtungsaw = "links abbiegen & ";
+                richtungsaw = "<i class='fa fa-arrow-left'></i> links abbiegen auf <namen class='" + streetnameid + "'>die Straße</namen> ";
             } else if ((richtungwar == "sw") && (richtung == "so")) {
-                richtungsaw = "links abbiegen & ";
+                richtungsaw = "<i class='fa fa-arrow-left'></i> links abbiegen auf <namen class='" + streetnameid + "'>die Straße</namen> ";
             } else if ((richtungwar == "so") && (richtung == "sw")) {
-                richtungsaw = "rechts abbiegen & ";
+                richtungsaw = "<i class='fa fa-arrow-right'></i> rechts abbiegen auf <namen class='" + streetnameid + "'>die Straße</namen> ";
             } else if ((richtungwar == "sw") && (richtung == "nw")) {
-                richtungsaw = "rechts abbiegen & ";
+                richtungsaw = "<i class='fa fa-arrow-right'></i> rechts abbiegen auf <namen class='" + streetnameid + "'>die Straße</namen> ";
             } else {
                 richtungsaw = "";
             }
-
             richtungwar = richtung;
-
-            elmid = element['id'] - 1;
-
-            $("#notes" + anzahlrouten).append("<p>" + elmid + ") <b>" + richtungsaw + "der Straße " + Math.round(distance) + "m folgen</b>  <br/>->(" + element['lat'] + "," + element['lon'] + ") <br/>OSM:" + element['node'] + "<hr/></p>");
+            elmid++;
+            distance2 = getDist(globalval[anzahlrouten][countnotes - 1]['lat'], globalval[anzahlrouten][countnotes - 1]['lon'], globalval[anzahlrouten][countnotes]['lat'], globalval[anzahlrouten][countnotes]['lon']);
+            totaldistance += distance2;
+            if ((richtungsaw != "") || (elmid == 0) || (elmid == globalval[anzahlrouten].length - 1)) {
+                if (richtungsaw != "") {
+                    $("#notes" + anzahlrouten).append("<p>" + richtungsaw + "<hr/></p>");
+                }
+                var osmidhelper = "<br/>->(" + element['lat'] + "," + element['lon'] + ") <br/>OSM:" + element['node'];
+                osmidhelper = "";
+                $("#notes" + anzahlrouten).append("<p><i class='fa fa-arrow-up'></i> der Straße <namen class='" + streetnameid + "'></namen> <namen class='dist" + streetnameid + "'>" + Math.round(distance2) + "</namen>m folgen</b>  " + osmidhelper + "<hr/></p>");
+                appendid++;
+                $.ajax({
+                    type: 'GET',
+                    url: "https://osm.abi.tv/getstreetname.php?osmid1=" + vorgaengernode + "&osmid2=" + element['node'],
+                    async: true,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data) {
+                            $("." + streetnameid).html(data);
+                        }
+                    }
+                });
+            } else {
+                var append2 = appendid - 1;
+                var help = ".dist" + anzahlrouten + "street" + append2;
+                $(help)[0].innerHTML = parseInt($(help)[0].innerHTML) + Math.round(distance2);
+            }
         } else {
             $("#notes" + anzahlrouten).append("<p><b>Start:(" + element['lat'] + "," + element['lon'] + ")</b> </p>");
-
         }
-
         countnotes++;
+        vorgaengernode = element['node'];
     });
     totaldistance = totaldistance / 1000;
     $("#notes" + anzahlrouten).append("<p><b>Ziel:(" + globalval[anzahlrouten][countnotes - 1]['lat'] + "," + globalval[anzahlrouten][countnotes - 1]['lon'] + ")</b> </p>");
-    $("#notes" + anzahlrouten).append("<p>Gesamtlänge der Route: " + totaldistance + "km <br/>über " + countnotes + " Knoten</p>");
+    $("#notes" + anzahlrouten).append("<p>Gesamtlänge der Route: " + Math.round(totaldistance * 1000) / 1000 + "km <br/>über " + countnotes + " Knoten</p>");
 }
 
 
