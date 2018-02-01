@@ -1,28 +1,21 @@
 package de.hsnr.osm2018.server;
 
 import de.hsnr.osm2018.data.provider.FilteredDataProvider;
-import de.hsnr.osm2018.provider.provider.PbfProvider;
 import de.hsnr.osm2018.server.controller.DataController;
 import de.hsnr.osm2018.server.controller.RouteController;
-
-import java.awt.*;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class Server {
 
-    private Server() throws IOException {
-        /* load the graph into memory */
-        System.out.println("Loading graph...");
-        long start = System.currentTimeMillis();
-        FilteredDataProvider provider = new PbfProvider("DdorfNode.pbf", "DdorfWay.pbf");
-        long time = System.currentTimeMillis() - start;
-        System.out.println("Graph loaded in " + (time / 1000) + " seconds");
+    private FilteredDataProvider mProvider;
 
+    public Server(FilteredDataProvider provider) {
+        this.mProvider = provider;
+    }
+
+    public void run() {
         /* configure static content */
         staticFiles.location("/public");
         staticFiles.expireTime(300L);
@@ -33,19 +26,10 @@ public class Server {
         });
         enableDebugScreen();
 
-        get(Config.PATH_DATA, new DataController(provider));
-        get(Config.ROUTE_ROUTE, new RouteController(provider));
+        get(Config.PATH_DATA, new DataController(mProvider));
+        get(Config.ROUTE_ROUTE, new RouteController(mProvider));
 
         System.out.println("Server is running");
-        if (Desktop.isDesktopSupported()) {
-            try {
-                Desktop.getDesktop().browse(new URI("http://localhost:4567/"));
-            } catch (URISyntaxException ignored) {}
-        }
-    }
-
-    public static void main(String[] args) throws IOException {
-        new Server();
     }
 
     public static class Config {

@@ -1284,7 +1284,7 @@ function getweight() {
 function setDemo() {
 
 
-    $.getJSON("https://osm.abi.tv/api.php?startlon=DATA&startlat=DATA&endlon=DATA&endlat=DATA&routetyp=short", function(data) {
+    $.getJSON("//osm.abi.tv/api.php?startlon=DATA&startlat=DATA&endlon=DATA&endlat=DATA&routetyp=short", function(data) {
         $.each(data, function(id, val) {
             setPoint(val['lat'], val['lon']);
             setweight(val['w']);
