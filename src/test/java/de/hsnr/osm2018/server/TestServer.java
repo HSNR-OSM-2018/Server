@@ -16,7 +16,7 @@ public class TestServer {
         long start = System.currentTimeMillis();
         PbfProvider provider = new PbfProvider("GermanyNode.pbf", "GermanyWay.pbf");
         long time = System.currentTimeMillis() - start;
-        System.out.println("Graph loaded in " + (time / 1000) + " seconds");
+        System.out.println("Graph loaded in " + (time / 1000F) + " seconds");
 
         new Server(provider).run();
 

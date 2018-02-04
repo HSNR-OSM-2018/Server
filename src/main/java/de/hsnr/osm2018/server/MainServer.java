@@ -8,6 +8,9 @@ import java.io.FileNotFoundException;
 public class MainServer {
 
     public static void main(String[] args) {
+        /* load the graph into memory */
+        System.out.println("Loading graph...");
+        long start = System.currentTimeMillis();
         PbfProvider provider;
         switch (args.length) {
             case 0:
@@ -25,6 +28,8 @@ public class MainServer {
                 System.out.println("Only two parameters are allowed");
                 return;
         }
+        long time = System.currentTimeMillis() - start;
+        System.out.println("Graph loaded in " + (time / 1000F) + " seconds");
         new Server(provider).run();
     }
 }
