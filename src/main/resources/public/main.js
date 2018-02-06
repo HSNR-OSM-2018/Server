@@ -4,6 +4,7 @@
 /* www.movable-type.co.uk/scripts/latlong.html                                                    */
 /* www.movable-type.co.uk/scripts/geodesy/docs/module-latlon-spherical.html                       */
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+
 /**
  * Library of geodesy functions for operations on a spherical earth model.
  *
@@ -41,7 +42,7 @@ function LatLon(lat, lon) {
  *     var p2 = new LatLon(48.857, 2.351);
  *     var d = p1.distanceTo(p2); // 404.3 km
  */
-LatLon.prototype.distanceTo = function(point, radius) {
+LatLon.prototype.distanceTo = function (point, radius) {
     if (!(point instanceof LatLon)) throw new TypeError('point is not LatLon object');
     radius = (radius === undefined) ? 6371e3 : Number(radius);
 
@@ -78,7 +79,7 @@ LatLon.prototype.distanceTo = function(point, radius) {
  *     var p2 = new LatLon(48.857, 2.351);
  *     var b1 = p1.bearingTo(p2); // 156.2°
  */
-LatLon.prototype.bearingTo = function(point) {
+LatLon.prototype.bearingTo = function (point) {
     if (!(point instanceof LatLon)) throw new TypeError('point is not LatLon object');
 
     // tanθ = sinΔλ⋅cosφ2 / cosφ1⋅sinφ2 − sinφ1⋅cosφ2⋅cosΔλ
@@ -108,7 +109,7 @@ LatLon.prototype.bearingTo = function(point) {
  *     var p2 = new LatLon(48.857, 2.351);
  *     var b2 = p1.finalBearingTo(p2); // 157.9°
  */
-LatLon.prototype.finalBearingTo = function(point) {
+LatLon.prototype.finalBearingTo = function (point) {
     if (!(point instanceof LatLon)) throw new TypeError('point is not LatLon object');
 
     // get initial bearing from destination point to this point & reverse it by adding 180°
@@ -127,7 +128,7 @@ LatLon.prototype.finalBearingTo = function(point) {
  *     var p2 = new LatLon(48.857, 2.351);
  *     var pMid = p1.midpointTo(p2); // 50.5363°N, 001.2746°E
  */
-LatLon.prototype.midpointTo = function(point) {
+LatLon.prototype.midpointTo = function (point) {
     if (!(point instanceof LatLon)) throw new TypeError('point is not LatLon object');
 
     // φm = atan2( sinφ1 + sinφ2, √( (cosφ1 + cosφ2⋅cosΔλ) ⋅ (cosφ1 + cosφ2⋅cosΔλ) ) + cos²φ2⋅sin²Δλ )
@@ -164,7 +165,7 @@ LatLon.prototype.midpointTo = function(point) {
  *   let p2 = new LatLon(48.857, 2.351);
  *   let pMid = p1.intermediatePointTo(p2, 0.25); // 51.3721°N, 000.7073°E
  */
-LatLon.prototype.intermediatePointTo = function(point, fraction) {
+LatLon.prototype.intermediatePointTo = function (point, fraction) {
     if (!(point instanceof LatLon)) throw new TypeError('point is not LatLon object');
 
     var φ1 = this.lat.toRadians(),
@@ -214,7 +215,7 @@ LatLon.prototype.intermediatePointTo = function(point, fraction) {
  *     var p1 = new LatLon(51.4778, -0.0015);
  *     var p2 = p1.destinationPoint(7794, 300.7); // 51.5135°N, 000.0983°W
  */
-LatLon.prototype.destinationPoint = function(distance, bearing, radius) {
+LatLon.prototype.destinationPoint = function (distance, bearing, radius) {
     radius = (radius === undefined) ? 6371e3 : Number(radius);
 
     // sinφ2 = sinφ1⋅cosδ + cosφ1⋅sinδ⋅cosθ
@@ -258,7 +259,7 @@ LatLon.prototype.destinationPoint = function(distance, bearing, radius) {
  *     var p2 = LatLon(49.0034, 2.5735), brng2 =  32.435;
  *     var pInt = LatLon.intersection(p1, brng1, p2, brng2); // 50.9078°N, 004.5084°E
  */
-LatLon.intersection = function(p1, brng1, p2, brng2) {
+LatLon.intersection = function (p1, brng1, p2, brng2) {
     if (!(p1 instanceof LatLon)) throw new TypeError('p1 is not LatLon object');
     if (!(p2 instanceof LatLon)) throw new TypeError('p2 is not LatLon object');
 
@@ -316,7 +317,7 @@ LatLon.intersection = function(p1, brng1, p2, brng2) {
  *   var p2 = new LatLon(53.1887,  0.1334);
  *   var d = pCurrent.crossTrackDistanceTo(p1, p2);  // -307.5 m
  */
-LatLon.prototype.crossTrackDistanceTo = function(pathStart, pathEnd, radius) {
+LatLon.prototype.crossTrackDistanceTo = function (pathStart, pathEnd, radius) {
     if (!(pathStart instanceof LatLon)) throw new TypeError('pathStart is not LatLon object');
     if (!(pathEnd instanceof LatLon)) throw new TypeError('pathEnd is not LatLon object');
     var R = (radius === undefined) ? 6371e3 : Number(radius);
@@ -347,7 +348,7 @@ LatLon.prototype.crossTrackDistanceTo = function(pathStart, pathEnd, radius) {
  *   var p2 = new LatLon(53.1887,  0.1334);
  *   var d = pCurrent.alongTrackDistanceTo(p1, p2);  // 62.331 km
  */
-LatLon.prototype.alongTrackDistanceTo = function(pathStart, pathEnd, radius) {
+LatLon.prototype.alongTrackDistanceTo = function (pathStart, pathEnd, radius) {
     if (!(pathStart instanceof LatLon)) throw new TypeError('pathStart is not LatLon object');
     if (!(pathEnd instanceof LatLon)) throw new TypeError('pathEnd is not LatLon object');
     var R = (radius === undefined) ? 6371e3 : Number(radius);
@@ -375,7 +376,7 @@ LatLon.prototype.alongTrackDistanceTo = function(pathStart, pathEnd, radius) {
  * @param {number} bearing - Initial bearing.
  * @param {number} latitude - Starting latitude.
  */
-LatLon.prototype.maxLatitude = function(bearing) {
+LatLon.prototype.maxLatitude = function (bearing) {
     var θ = Number(bearing).toRadians();
 
     var φ = this.lat.toRadians();
@@ -395,7 +396,7 @@ LatLon.prototype.maxLatitude = function(bearing) {
  * @param {number} latitude - Latitude crossings are to be determined for.
  * @returns {Object|null} Object containing { lon1, lon2 } or null if given latitude not reached.
  */
-LatLon.crossingParallels = function(point1, point2, latitude) {
+LatLon.crossingParallels = function (point1, point2, latitude) {
     var φ = Number(latitude).toRadians();
 
     var φ1 = point1.lat.toRadians();
@@ -438,7 +439,7 @@ LatLon.crossingParallels = function(point1, point2, latitude) {
  *     var p2 = new LatLon(50.964, 1.853);
  *     var d = p1.distanceTo(p2); // 40.31 km
  */
-LatLon.prototype.rhumbDistanceTo = function(point, radius) {
+LatLon.prototype.rhumbDistanceTo = function (point, radius) {
     if (!(point instanceof LatLon)) throw new TypeError('point is not LatLon object');
     radius = (radius === undefined) ? 6371e3 : Number(radius);
 
@@ -476,7 +477,7 @@ LatLon.prototype.rhumbDistanceTo = function(point, radius) {
  *     var p2 = new LatLon(50.964, 1.853);
  *     var d = p1.rhumbBearingTo(p2); // 116.7 m
  */
-LatLon.prototype.rhumbBearingTo = function(point) {
+LatLon.prototype.rhumbBearingTo = function (point) {
     if (!(point instanceof LatLon)) throw new TypeError('point is not LatLon object');
 
     var φ1 = this.lat.toRadians(),
@@ -507,7 +508,7 @@ LatLon.prototype.rhumbBearingTo = function(point) {
  *     var p1 = new LatLon(51.127, 1.338);
  *     var p2 = p1.rhumbDestinationPoint(40300, 116.7); // 50.9642°N, 001.8530°E
  */
-LatLon.prototype.rhumbDestinationPoint = function(distance, bearing, radius) {
+LatLon.prototype.rhumbDestinationPoint = function (distance, bearing, radius) {
     radius = (radius === undefined) ? 6371e3 : Number(radius);
 
     var δ = Number(distance) / radius; // angular distance in radians
@@ -542,7 +543,7 @@ LatLon.prototype.rhumbDestinationPoint = function(distance, bearing, radius) {
  *     var p2 = new LatLon(50.964, 1.853);
  *     var pMid = p1.rhumbMidpointTo(p2); // 51.0455°N, 001.5957°E
  */
-LatLon.prototype.rhumbMidpointTo = function(point) {
+LatLon.prototype.rhumbMidpointTo = function (point) {
     if (!(point instanceof LatLon)) throw new TypeError('point is not LatLon object');
 
     // see mathforum.org/kb/message.jspa?messageID=148837
@@ -583,7 +584,7 @@ LatLon.prototype.rhumbMidpointTo = function(point) {
  *   var polygon = [new LatLon(0,0), new LatLon(1,0), new LatLon(0,1)];
  *   var area = LatLon.areaOf(polygon); // 6.18e9 m²
  */
-LatLon.areaOf = function(polygon, radius) {
+LatLon.areaOf = function (polygon, radius) {
     // uses method due to Karney: osgeo-org.1560.x6.nabble.com/Area-of-a-spherical-polygon-td3841625.html;
     // for each edge of the polygon, tan(E/2) = tan(Δλ/2)·(tan(φ1/2) + tan(φ2/2)) / (1 + tan(φ1/2)·tan(φ2/2))
     // where E is the spherical excess of the trapezium obtained by extending the edge to the equator
@@ -649,7 +650,7 @@ LatLon.areaOf = function(polygon, radius) {
  *   var p2 = new LatLon(52.205, 0.119);
  *   var equal = p1.equals(p2); // true
  */
-LatLon.prototype.equals = function(point) {
+LatLon.prototype.equals = function (point) {
     if (!(point instanceof LatLon)) throw new TypeError('point is not LatLon object');
 
     if (this.lat != point.lat) return false;
@@ -667,7 +668,7 @@ LatLon.prototype.equals = function(point) {
  * @param   {number} [dp=0|2|4] - Number of decimal places to use - default 0 for dms, 2 for dm, 4 for d.
  * @returns {string} Comma-separated latitude/longitude.
  */
-LatLon.prototype.toString = function(format, dp) {
+LatLon.prototype.toString = function (format, dp) {
     return Dms.toLat(this.lat, format, dp) + ', ' + Dms.toLon(this.lon, format, dp);
 };
 
@@ -676,14 +677,14 @@ LatLon.prototype.toString = function(format, dp) {
 
 /** Extend Number object with method to convert numeric degrees to radians */
 if (Number.prototype.toRadians === undefined) {
-    Number.prototype.toRadians = function() {
+    Number.prototype.toRadians = function () {
         return this * Math.PI / 180;
     };
 }
 
 /** Extend Number object with method to convert radians to numeric (signed) degrees */
 if (Number.prototype.toDegrees === undefined) {
-    Number.prototype.toDegrees = function() {
+    Number.prototype.toDegrees = function () {
         return this * 180 / Math.PI;
     };
 }
@@ -724,7 +725,7 @@ var Dms = {};
  *     var lon = Dms.parseDMS('000° 00′ 05.31″ W');
  *     var p1 = new LatLon(lat, lon); // 51.4778°N, 000.0015°W
  */
-Dms.parseDMS = function(dmsStr) {
+Dms.parseDMS = function (dmsStr) {
     // check for signed decimal degrees without NSEW, if so return it directly
     if (typeof dmsStr == 'number' && isFinite(dmsStr)) return Number(dmsStr);
 
@@ -782,7 +783,7 @@ Dms.separator = '';
  * @param   {number} [dp=0|2|4] - Number of decimal places to use – default 0 for dms, 2 for dm, 4 for d.
  * @returns {string} Degrees formatted as deg/min/secs according to specified format.
  */
-Dms.toDMS = function(deg, format, dp) {
+Dms.toDMS = function (deg, format, dp) {
     if (isNaN(deg)) return null; // give up here if we can't make a number from deg
 
     // default values
@@ -863,7 +864,7 @@ Dms.toDMS = function(deg, format, dp) {
  * @param   {number} [dp=0|2|4] - Number of decimal places to use – default 0 for dms, 2 for dm, 4 for d.
  * @returns {string} Degrees formatted as deg/min/secs according to specified format.
  */
-Dms.toLat = function(deg, format, dp) {
+Dms.toLat = function (deg, format, dp) {
     var lat = Dms.toDMS(deg, format, dp);
     return lat === null ? '–' : lat.slice(1) + Dms.separator + (deg < 0 ? 'S' : 'N'); // knock off initial '0' for lat!
 };
@@ -877,7 +878,7 @@ Dms.toLat = function(deg, format, dp) {
  * @param   {number} [dp=0|2|4] - Number of decimal places to use – default 0 for dms, 2 for dm, 4 for d.
  * @returns {string} Degrees formatted as deg/min/secs according to specified format.
  */
-Dms.toLon = function(deg, format, dp) {
+Dms.toLon = function (deg, format, dp) {
     var lon = Dms.toDMS(deg, format, dp);
     return lon === null ? '–' : lon + Dms.separator + (deg < 0 ? 'W' : 'E');
 };
@@ -891,7 +892,7 @@ Dms.toLon = function(deg, format, dp) {
  * @param   {number} [dp=0|2|4] - Number of decimal places to use – default 0 for dms, 2 for dm, 4 for d.
  * @returns {string} Degrees formatted as deg/min/secs according to specified format.
  */
-Dms.toBrng = function(deg, format, dp) {
+Dms.toBrng = function (deg, format, dp) {
     deg = (Number(deg) + 360) % 360; // normalise -ve values to 180°..360°
     var brng = Dms.toDMS(deg, format, dp);
     return brng === null ? '–' : brng.replace('360', '0'); // just in case rounding took us up to 360°!
@@ -909,7 +910,7 @@ Dms.toBrng = function(deg, format, dp) {
  *   var point = Dms.compassPoint(24);    // point = 'NNE'
  *   var point = Dms.compassPoint(24, 1); // point = 'N'
  */
-Dms.compassPoint = function(bearing, precision) {
+Dms.compassPoint = function (bearing, precision) {
     if (precision === undefined) precision = 3;
     // note precision could be extended to 4 for quarter-winds (eg NbNW), but I think they are little used
 
@@ -928,13 +929,11 @@ Dms.compassPoint = function(bearing, precision) {
 };
 
 
-
-
 /*-- own code --*/
 
 function serialize(obj) {
     var str = [];
-    for(var p in obj) {
+    for (var p in obj) {
         if (obj.hasOwnProperty(p)) {
             str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
         }
@@ -998,17 +997,16 @@ function applyInitialUIState() {
 }
 
 
-
-$(function() {
-    $('.sidebar-left .slide-submenu').on('click', function() {
+$(function () {
+    $('.sidebar-left .slide-submenu').on('click', function () {
         var thisEl = $(this);
-        thisEl.closest('.sidebar-body').fadeOut('slide', function() {
+        thisEl.closest('.sidebar-body').fadeOut('slide', function () {
             $('.mini-submenu-left').fadeIn();
             applyMargins();
         });
     });
 
-    $('.mini-submenu-left').on('click', function() {
+    $('.mini-submenu-left').on('click', function () {
         var thisEl = $(this);
         $('.sidebar-left .sidebar-body').toggle('slide');
         thisEl.hide();
@@ -1018,7 +1016,6 @@ $(function() {
     $(window).on("resize", applyMargins);
     setup(15);
 });
-
 
 
 function setup(zoomstufe) {
@@ -1041,11 +1038,7 @@ function setup(zoomstufe) {
     applyMargins();
 
 
-
-
 }
-
-
 
 
 function setPoint(p2, p1) {
@@ -1064,7 +1057,6 @@ function setPoint(p2, p1) {
 function drawPoints() {
 
 
-
     var iconFeaturesHelp = iconFeatures[anzahlrouten];
     iconFeaturesHelp.splice(0, 1);
     iconFeaturesHelp.splice(iconFeatures[anzahlrouten].length - 1, 1);
@@ -1074,7 +1066,7 @@ function drawPoints() {
     });
 
     var iconStyle = new ol.style.Style({
-        image: new ol.style.Icon( /** @type {olx.style.IconOptions} */ ({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
             anchor: [0.5, 20],
             anchorXUnits: 'fraction',
             anchorYUnits: 'pixels',
@@ -1093,7 +1085,6 @@ function drawPoints() {
 }
 
 
-
 // draw a marker
 function drawStart() {
 
@@ -1105,7 +1096,7 @@ function drawStart() {
     });
 
     var iconStyle = new ol.style.Style({
-        image: new ol.style.Icon( /** @type {olx.style.IconOptions} */ ({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
             anchor: [0.5, 50],
             anchorXUnits: 'fraction',
             anchorYUnits: 'pixels',
@@ -1126,7 +1117,6 @@ function drawStart() {
 }
 
 
-
 // draw a marker
 function drawZiel() {
 
@@ -1138,7 +1128,7 @@ function drawZiel() {
     });
 
     var iconStyle = new ol.style.Style({
-        image: new ol.style.Icon( /** @type {olx.style.IconOptions} */ ({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
             anchor: [0.2, 50],
             anchorXUnits: 'fraction',
             anchorYUnits: 'pixels',
@@ -1167,16 +1157,16 @@ function hexToRgb(hex) {
     } : null;
 }
 
-var styleLineFunction = function(feature) {
+var styleLineFunction = function (feature) {
     var colortouse = '';
     var geometry = feature.getGeometry();
     var switcher = feature.get("name") % 10;
     switch (switcher) {
-         case 0:
+        case 0:
             colortouse = '#800000';
             break;
         case 1:
-             colortouse = '#008000';
+            colortouse = '#008000';
             break;
         case 2:
             colortouse = '#000080';
@@ -1197,7 +1187,7 @@ var styleLineFunction = function(feature) {
             colortouse = '#808000';
             break;
         case 8:
-           colortouse = '#00FFFF';
+            colortouse = '#00FFFF';
             break;
         case 9:
             colortouse = '#FFFF00';
@@ -1221,7 +1211,7 @@ var styleLineFunction = function(feature) {
     ];
     var dxvor = 0.1;
     var dyvor = 0.1;
-    geometry.forEachSegment(function(start, end) {
+    geometry.forEachSegment(function (start, end) {
         var dx = end[0] - start[0];
         var dy = end[1] - start[1];
         var rotation = Math.atan2(dy, dx);
@@ -1230,7 +1220,7 @@ var styleLineFunction = function(feature) {
         dyvor = dy;
 
         rotationvor = Math.abs(Math.abs(rotation) - Math.abs(rotationvor));
-           if((rotationvor>0.5)&&(maper.getView().getZoom()>13)){
+        if ((rotationvor > 0.5) && (maper.getView().getZoom() > 13)) {
             // arrows
             styles.push(new ol.style.Style({
                 geometry: new ol.geom.Point(start),
@@ -1284,8 +1274,8 @@ function getweight() {
 function setDemo() {
 
 
-    $.getJSON("//osm.abi.tv/api.php?startlon=DATA&startlat=DATA&endlon=DATA&endlat=DATA&routetyp=short", function(data) {
-        $.each(data, function(id, val) {
+    $.getJSON("//osm.abi.tv/api.php?startlon=DATA&startlat=DATA&endlon=DATA&endlat=DATA&routetyp=short", function (data) {
+        $.each(data, function (id, val) {
             setPoint(val['lat'], val['lon']);
             setweight(val['w']);
             setVal(val);
@@ -1302,41 +1292,41 @@ function setNotes() {
     document.getElementById('accordion-left').innerHTML = '';
     var switcher = anzahlrouten % 10;
     switch (switcher) {
-    case 0:
-        colortouse = '#800000';
-        break;
-    case 1:
-        colortouse = '#008000';
-        break;
-    case 2:
-        colortouse = '#000080';
-        break;
-    case 3:
-        colortouse = '#FF0000';
-        break;
-    case 4:
-        colortouse = '#00FF00';
-        break;
-    case 5:
-        colortouse = '#008080';
-        break;
-    case 6:
-        colortouse = '#800080';
-        break;
-    case 7:
-        colortouse = '#808000';
-        break;
-    case 8:
-        colortouse = '#00FFFF';
-        break;
-    case 9:
-        colortouse = '#FFFF00';
-        break;
-    case 10:
-        colortouse = '#FF00FF';
-        break;
-    default:
-        colortouse = '#800000';
+        case 0:
+            colortouse = '#800000';
+            break;
+        case 1:
+            colortouse = '#008000';
+            break;
+        case 2:
+            colortouse = '#000080';
+            break;
+        case 3:
+            colortouse = '#FF0000';
+            break;
+        case 4:
+            colortouse = '#00FF00';
+            break;
+        case 5:
+            colortouse = '#008080';
+            break;
+        case 6:
+            colortouse = '#800080';
+            break;
+        case 7:
+            colortouse = '#808000';
+            break;
+        case 8:
+            colortouse = '#00FFFF';
+            break;
+        case 9:
+            colortouse = '#FFFF00';
+            break;
+        case 10:
+            colortouse = '#FF00FF';
+            break;
+        default:
+            colortouse = '#800000';
     }
     $(".sidebar-left").prepend("<div class='panel-group sidebar-body' id='accordion-left" + anzahlrouten + "'> <div id='pan" + anzahlrouten + "' class='panel panel-default'> <div class='panel-heading'> <h4 class='panel-title' style='color:" + colortouse + "'> <a data-toggle='collapse' href='#properties" + anzahlrouten + "' class='collapsed'> <i class='fa fa-list-alt'></i> Route " + anzahlrouten + " </a> </h4> </div> <div id='properties" + anzahlrouten + "' class='panel-collapse collapse'> <div class='panel-body' id='notes" + anzahlrouten + "' style='overflow: auto;max-height: 600px;'><p></p></div> </div> </div> </div>");
     var countnotes = 0;
@@ -1421,17 +1411,25 @@ function setNotes() {
 function setStart(callback) {
     var sadress = document.getElementById('startadresse').value;
     if (sadress != "") {
-        if(!Number.isInteger(parseInt(sadress))){
-            if(sadress.toLowerCase().indexOf("bielefeld") !== -1){bootbox.alert("Meinen Sie Krefeld?");window.open("https://de.wikipedia.org/wiki/Bielefeldverschw%C3%B6rung","_blank");}
-        $.getJSON("//open.mapquestapi.com/nominatim/v1/search.php?key=25sMhWFAQkSxd3lgc7SSImmpNNdCW91P&format=json&addressdetails=1&format=json&limit=1&q=" + sadress, function(data) {
-            $.each(data, function(id, val) {
-                startlat = val['lat'];
-                startlon = val['lon'];
-                startosm = val['osm_id'];
+        if (!Number.isInteger(parseInt(sadress))) {
+            if (sadress.toLowerCase().indexOf("bielefeld") !== -1) {
+                bootbox.alert("Meinen Sie Krefeld?");
+                window.open("https://de.wikipedia.org/wiki/Bielefeldverschw%C3%B6rung", "_blank");
+            }
+            $.getJSON("//open.mapquestapi.com/nominatim/v1/search.php?key=25sMhWFAQkSxd3lgc7SSImmpNNdCW91P&format=json&addressdetails=1&format=json&limit=1&q=" + sadress, function (data) {
+                $.each(data, function (id, val) {
+                    startlat = val['lat'];
+                    startlon = val['lon'];
+                    startosm = val['osm_id'];
+                });
+                callback();
             });
+        } else {
+            startosm = parseInt(sadress);
+            startlon = "-999";
+            startlat = "-999";
             callback();
-        });
-        }else{ startosm = parseInt(sadress);startlon="-999";startlat="-999";callback();}
+        }
     }
 }
 
@@ -1440,99 +1438,107 @@ function setStart(callback) {
 function setZiel(callback) {
     var sadress = document.getElementById('zieladresse').value;
     if (sadress != "") {
-        if(!Number.isInteger(parseInt(sadress))){
-            if(sadress.toLowerCase().indexOf("bielefeld") !== -1){bootbox.alert("Meinen Sie Krefeld?");window.open("https://de.wikipedia.org/wiki/Bielefeldverschw%C3%B6rung","_blank");}
-        $.getJSON("//open.mapquestapi.com/nominatim/v1/search.php?key=25sMhWFAQkSxd3lgc7SSImmpNNdCW91P&format=json&addressdetails=1&format=json&limit=1&q=" + sadress, function(data) {
-            $.each(data, function(id, val) {
-                ziellat = val['lat'];
-                ziellon = val['lon'];
-                zielosm = val['osm_id'];
+        if (!Number.isInteger(parseInt(sadress))) {
+            if (sadress.toLowerCase().indexOf("bielefeld") !== -1) {
+                bootbox.alert("Meinen Sie Krefeld?");
+                window.open("https://de.wikipedia.org/wiki/Bielefeldverschw%C3%B6rung", "_blank");
+            }
+            $.getJSON("//open.mapquestapi.com/nominatim/v1/search.php?key=25sMhWFAQkSxd3lgc7SSImmpNNdCW91P&format=json&addressdetails=1&format=json&limit=1&q=" + sadress, function (data) {
+                $.each(data, function (id, val) {
+                    ziellat = val['lat'];
+                    ziellon = val['lon'];
+                    zielosm = val['osm_id'];
+                });
+                var middlon = (parseFloat(startlon) + parseFloat(ziellon)) / 2;
+                var middlat = (parseFloat(startlat) + parseFloat(ziellat)) / 2;
+                var middist = getDist(startlat, startlon, ziellat, ziellon);
+                var zoomstufe;
+                switch (true) {
+                    case (middist < 298):
+                        zoomstufe = 19;
+                        break;
+                    case (middist < 596):
+                        zoomstufe = 18;
+                        break;
+                    case (middist < 1193):
+                        zoomstufe = 17;
+                        break;
+                    case (middist < 2387):
+                        zoomstufe = 16;
+                        break;
+                    case (middist < 4773):
+                        zoomstufe = 15;
+                        break;
+                    case (middist < 9547):
+                        zoomstufe = 14;
+                        break;
+                    case (middist < 19093):
+                        zoomstufe = 13;
+                        break;
+                    case (middist < 38187):
+                        zoomstufe = 12;
+                        break;
+                    case (middist < 76373):
+                        zoomstufe = 11;
+                        break;
+                    case (middist < 152746):
+                        zoomstufe = 10;
+                        break;
+                    case (middist < 305492):
+                        zoomstufe = 9;
+                        break;
+                    case (middist < 610984):
+                        zoomstufe = 8;
+                        break;
+                    case (middist < 1222000):
+                        zoomstufe = 7;
+                        break;
+                    case (middist < 24444000):
+                        zoomstufe = 6;
+                        break;
+                    case (middist < 48888000):
+                        zoomstufe = 5;
+                        break;
+                    case (middist < 9776000):
+                        zoomstufe = 4;
+                        break;
+                    case (middist < 1955100):
+                        zoomstufe = 3;
+                        break;
+                    case (middist < 39103000):
+                        zoomstufe = 2;
+                        break;
+                    default:
+                        zoomstufe = 2;
+                }
+                var city = ol.proj.transform([middlon, middlat], 'EPSG:4326', 'EPSG:3857');
+                var view = new ol.View({
+                    center: city,
+                    zoom: zoomstufe - 2
+                });
+                maper.setView(view);
+                callback();
             });
-               var middlon =(parseFloat(startlon)+parseFloat(ziellon))/2;
-    var middlat =(parseFloat(startlat)+parseFloat(ziellat))/2;
-    var middist = getDist(startlat,startlon,ziellat,ziellon);
-    var zoomstufe;
-   switch (true) {
-    case (middist<298):
-        zoomstufe = 19;
-        break;
-    case (middist<596):
-        zoomstufe = 18;
-        break;
-    case (middist<1193):
-        zoomstufe = 17;
-        break;
-    case (middist<2387):
-        zoomstufe = 16;
-        break;
-    case (middist<4773):
-        zoomstufe = 15;
-        break;
-    case (middist<9547):
-        zoomstufe = 14;
-        break;
-    case (middist<19093):
-        zoomstufe = 13;
-        break;
-    case (middist<38187):
-        zoomstufe = 12;
-        break;
-    case (middist<76373):
-        zoomstufe = 11;
-        break;
-    case (middist<152746):
-        zoomstufe = 10;
-        break;
-    case (middist<305492):
-        zoomstufe = 9;
-        break;
-    case (middist<610984):
-        zoomstufe = 8;
-        break;
-    case (middist<1222000):
-        zoomstufe = 7;
-        break;
-    case (middist<24444000):
-        zoomstufe = 6;
-        break;
-    case (middist<48888000):
-        zoomstufe = 5;
-        break;
-    case (middist<9776000):
-        zoomstufe = 4;
-        break;
-    case (middist<1955100):
-        zoomstufe = 3;
-        break;
-    case (middist<39103000):
-        zoomstufe = 2;
-        break;
-    default:
-        zoomstufe = 2;
-}
-    var city = ol.proj.transform([ middlon,  middlat], 'EPSG:4326', 'EPSG:3857');
-    var view = new ol.View({
-        center: city,
-        zoom: zoomstufe-2
-    });
-    maper.setView(view);
+        } else {
+            zielosm = parseInt(sadress);
+            ziellat = "999";
+            ziellon = "999";
             callback();
-        });
-        }else{ zielosm = parseInt(sadress); ziellat ="999"; ziellon ="999";callback();}
+        }
     }
 }
 
 function doSuche() {
     $("#main-loader").fadeIn(0);
     clearRoute();
-    setStart(function() {
-        setZiel(function() {
+    setStart(function () {
+        setZiel(function () {
             if ((document.getElementById('startadresse').value != "") && (document.getElementById('zieladresse').value != "")) {
-                if((startlat!="-999")&&(startlon!="-999")&&(ziellat!="999")&&(ziellon!="999")){
-                setRoutefromSuche();
-            }else{
-                addNodeRoute($("#routetyp").val(), startosm,zielosm);
-            }
+                if ((startlat != "-999") && (startlon != "-999") && (ziellat != "999") && (ziellon != "999")) {
+                    setRoutefromSuche();
+                } else {
+                    addNodeRoute($("#routetyp").val(), startosm, zielosm);
+                }
             }
         });
     });
@@ -1547,8 +1553,8 @@ function setRoutefromSuche() {
         destinationLatitude: ziellat,
         destinationLongitude: ziellon
     };
-    $.getJSON(path + "?" + serialize(parameter), function(res) {
-        $.each(res.data, function(id, val) {
+    $.getJSON(path + "?" + serialize(parameter), function (res) {
+        $.each(res.data, function (id, val) {
             setPoint(val['lat'], val['lon']);
             setweight(val['w']);
             setVal(val);
@@ -1558,7 +1564,7 @@ function setRoutefromSuche() {
         //drawPoints();
         drawLines();
         $("#main-loader").fadeOut(0);
-    }).fail(function(res) {
+    }).fail(function (res) {
         bootbox.alert(res.responseJSON.message);
         $("#main-loader").fadeOut(0);
     });
@@ -1578,8 +1584,8 @@ function addNodeRoute(type, startNode, destinationNode) {
         startNode: startNode,
         destinationNode: destinationNode
     };
-    $.getJSON(path + "?" + serialize(parameter), function(res) {
-        $.each(res.data, function(id, val) {
+    $.getJSON(path + "?" + serialize(parameter), function (res) {
+        $.each(res.data, function (id, val) {
             setPoint(val['lat'], val['lon']);
             setweight(val['w']);
             setVal(val);
@@ -1589,7 +1595,7 @@ function addNodeRoute(type, startNode, destinationNode) {
         //drawPoints();
         drawLines();
         $("#main-loader").fadeOut(0);
-    }).fail(function(res) {
+    }).fail(function (res) {
         bootbox.alert(res.responseJSON.message);
         $("#main-loader").fadeOut(0);
     });
@@ -1604,8 +1610,8 @@ function addPointRoute(type, startLatitude, startLongitude, destinationLatitude,
         destinationLatitude: destinationLatitude,
         destinationLongitude: destinationLongitude
     };
-    $.getJSON(path + "?" + serialize(parameter), function(res) {
-        $.each(res.data, function(id, val) {
+    $.getJSON(path + "?" + serialize(parameter), function (res) {
+        $.each(res.data, function (id, val) {
             setPoint(val['lat'], val['lon']);
             setweight(val['w']);
             setVal(val);
@@ -1615,11 +1621,12 @@ function addPointRoute(type, startLatitude, startLongitude, destinationLatitude,
         //drawPoints();
         drawLines();
         $("#main-loader").fadeOut(0);
-    }).fail(function(res) {
+    }).fail(function (res) {
         bootbox.alert(res.responseJSON.message);
         $("#main-loader").fadeOut(0);
     });
 }
+
 //example calls
 // addNodeRoute("shortest", 1544556049, 34018014);
 // addNodeRoute("fastest", 1544556049, 34018014);
