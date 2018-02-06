@@ -1,8 +1,6 @@
 package de.hsnr.osm2018.server.controller;
 
-import de.hsnr.osm2018.core.algoritms.DijkstraAStar;
-import de.hsnr.osm2018.core.algoritms.DistanceAStar;
-import de.hsnr.osm2018.core.algoritms.SpeedAStar;
+import de.hsnr.osm2018.core.algoritms.*;
 import de.hsnr.osm2018.data.graph.Graph;
 import de.hsnr.osm2018.data.path.PathContainer;
 import de.hsnr.osm2018.data.path.PathFinder;
@@ -72,6 +70,12 @@ public class RouteController extends JSONController {
                 break;
             case "dijkstra":
                 algorithm = new DijkstraAStar(graph);
+                break;
+            case "greedy_shortest":
+                algorithm = new DistanceGreedy(graph);
+                break;
+            case "greedy_fastest":
+                algorithm = new SpeedGreedy(graph);
                 break;
             default:
                 return error(response, "algorithm not supported");
