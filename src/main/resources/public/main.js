@@ -1421,7 +1421,7 @@ function setNotes() {
 function setStart(callback) {
     var sadress = document.getElementById('startadresse').value;
     if (sadress != "") {
-        if(!Number.isInteger(parseInt(sadres))){
+        if(!Number.isInteger(parseInt(sadress))){
             if(sadress.toLowerCase().indexOf("bielefeld") !== -1){bootbox.alert("Meinen Sie Krefeld?");window.open("https://de.wikipedia.org/wiki/Bielefeldverschw%C3%B6rung","_blank");}
         $.getJSON("//open.mapquestapi.com/nominatim/v1/search.php?key=25sMhWFAQkSxd3lgc7SSImmpNNdCW91P&format=json&addressdetails=1&format=json&limit=1&q=" + sadress, function(data) {
             $.each(data, function(id, val) {
@@ -1431,7 +1431,7 @@ function setStart(callback) {
             });
             callback();
         });
-        }else{ startosm = parseInt(sadres);startlon=-999;startlat=-999;}
+        }else{ startosm = parseInt(sadress);startlon=-999;startlat=-999;}
     }
 }
 
