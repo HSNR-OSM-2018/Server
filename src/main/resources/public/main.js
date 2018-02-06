@@ -1421,6 +1421,7 @@ function setNotes() {
 function setStart(callback) {
     var sadress = document.getElementById('startadresse').value;
     if (sadress != "") {
+        if(!Number.isInteger(parseInt(sadres))){
             if(sadress.toLowerCase().indexOf("bielefeld") !== -1){bootbox.alert("Meinen Sie Krefeld?");window.open("https://de.wikipedia.org/wiki/Bielefeldverschw%C3%B6rung","_blank");}
         $.getJSON("//open.mapquestapi.com/nominatim/v1/search.php?key=25sMhWFAQkSxd3lgc7SSImmpNNdCW91P&format=json&addressdetails=1&format=json&limit=1&q=" + sadress, function(data) {
             $.each(data, function(id, val) {
@@ -1430,6 +1431,7 @@ function setStart(callback) {
             });
             callback();
         });
+        }else{ startosm = parseInt(sadres);startlon=-999;startlat=-999;}   
     }
 }
 
@@ -1438,6 +1440,7 @@ function setStart(callback) {
 function setZiel(callback) {
     var sadress = document.getElementById('zieladresse').value;
     if (sadress != "") {
+        if(!Number.isInteger(parseInt(sadres))){
             if(sadress.toLowerCase().indexOf("bielefeld") !== -1){bootbox.alert("Meinen Sie Krefeld?");window.open("https://de.wikipedia.org/wiki/Bielefeldverschw%C3%B6rung","_blank");}
         $.getJSON("//open.mapquestapi.com/nominatim/v1/search.php?key=25sMhWFAQkSxd3lgc7SSImmpNNdCW91P&format=json&addressdetails=1&format=json&limit=1&q=" + sadress, function(data) {
             $.each(data, function(id, val) {
@@ -1445,6 +1448,7 @@ function setZiel(callback) {
                 ziellon = val['lon'];
                 zielosm = val['osm_id'];
             });
+         }else{ zielosm = parseInt(sadres); ziellat =999; ziellon =999;}   
                var middlon =(parseFloat(startlon)+parseFloat(ziellon))/2;
     var middlat =(parseFloat(startlat)+parseFloat(ziellat))/2;
     var middist = getDist(startlat,startlon,ziellat,ziellon);
@@ -1524,7 +1528,11 @@ function doSuche() {
     setStart(function() {
         setZiel(function() {
             if ((document.getElementById('startadresse').value != "") && (document.getElementById('zieladresse').value != "")) {
+                if((startlat!=-999)&&(startlon!=-999)&&(ziellat!=999)&&(ziellon!=999)){
                 setRoutefromSuche();
+            }else{
+                addNodeRoute($("#routetyp").val(), startosm,zielosm);
+            }
             }
         });
     });
@@ -1582,7 +1590,7 @@ function addNodeRoute(type, startNode, destinationNode) {
         });
         drawStart();
         drawZiel();
-        drawPoints();
+        //drawPoints();
         drawLines();
     });
 }
@@ -1608,7 +1616,7 @@ function addPointRoute(type, startLatitude, startLongitude, destinationLatitude,
         });
         drawStart();
         drawZiel();
-        drawPoints();
+        //drawPoints();
         drawLines();
     });
 }
