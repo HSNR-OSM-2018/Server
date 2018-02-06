@@ -1422,7 +1422,7 @@ function setStart(callback) {
     var sadress = document.getElementById('startadresse').value;
     if (sadress != "") {
             if(sadress.toLowerCase().indexOf("bielefeld") !== -1){bootbox.alert("Meinen Sie Krefeld?");window.open("https://de.wikipedia.org/wiki/Bielefeldverschw%C3%B6rung","_blank");}
-        $.getJSON("https://nominatim.openstreetmap.org/?format=json&addressdetails=1&format=json&limit=1&q=" + sadress, function(data) {
+        $.getJSON("//open.mapquestapi.com/nominatim/v1/search.php?key=25sMhWFAQkSxd3lgc7SSImmpNNdCW91P&format=json&addressdetails=1&format=json&limit=1&q=" + sadress, function(data) {
             $.each(data, function(id, val) {
                 startlat = val['lat'];
                 startlon = val['lon'];
@@ -1439,7 +1439,7 @@ function setZiel(callback) {
     var sadress = document.getElementById('zieladresse').value;
     if (sadress != "") {
             if(sadress.toLowerCase().indexOf("bielefeld") !== -1){bootbox.alert("Meinen Sie Krefeld?");window.open("https://de.wikipedia.org/wiki/Bielefeldverschw%C3%B6rung","_blank");}
-        $.getJSON("https://nominatim.openstreetmap.org/?format=json&addressdetails=1&format=json&limit=1&q=" + sadress, function(data) {
+        $.getJSON("//open.mapquestapi.com/nominatim/v1/search.php?key=25sMhWFAQkSxd3lgc7SSImmpNNdCW91P&format=json&addressdetails=1&format=json&limit=1&q=" + sadress, function(data) {
             $.each(data, function(id, val) {
                 ziellat = val['lat'];
                 ziellon = val['lon'];
