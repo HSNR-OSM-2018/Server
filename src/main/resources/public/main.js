@@ -1431,7 +1431,7 @@ function setStart(callback) {
             });
             callback();
         });
-        }else{ startosm = parseInt(sadres);startlon=-999;startlat=-999;}   
+        }else{ startosm = parseInt(sadres);startlon=-999;startlat=-999;}
     }
 }
 
@@ -1448,67 +1448,66 @@ function setZiel(callback) {
                 ziellon = val['lon'];
                 zielosm = val['osm_id'];
             });
-         }else{ zielosm = parseInt(sadres); ziellat =999; ziellon =999;}   
                var middlon =(parseFloat(startlon)+parseFloat(ziellon))/2;
     var middlat =(parseFloat(startlat)+parseFloat(ziellat))/2;
     var middist = getDist(startlat,startlon,ziellat,ziellon);
     var zoomstufe;
    switch (true) {
-    case (middist<298): 
+    case (middist<298):
         zoomstufe = 19;
         break;
-    case (middist<596): 
+    case (middist<596):
         zoomstufe = 18;
         break;
-    case (middist<1193): 
+    case (middist<1193):
         zoomstufe = 17;
         break;
-    case (middist<2387): 
+    case (middist<2387):
         zoomstufe = 16;
         break;
-    case (middist<4773): 
+    case (middist<4773):
         zoomstufe = 15;
         break;
-    case (middist<9547): 
+    case (middist<9547):
         zoomstufe = 14;
         break;
-    case (middist<19093): 
+    case (middist<19093):
         zoomstufe = 13;
         break;
-    case (middist<38187): 
+    case (middist<38187):
         zoomstufe = 12;
         break;
-    case (middist<76373): 
+    case (middist<76373):
         zoomstufe = 11;
         break;
-    case (middist<152746): 
+    case (middist<152746):
         zoomstufe = 10;
         break;
-    case (middist<305492): 
+    case (middist<305492):
         zoomstufe = 9;
         break;
-    case (middist<610984): 
+    case (middist<610984):
         zoomstufe = 8;
         break;
-    case (middist<1222000): 
+    case (middist<1222000):
         zoomstufe = 7;
         break;
-    case (middist<24444000): 
+    case (middist<24444000):
         zoomstufe = 6;
         break;
-    case (middist<48888000): 
+    case (middist<48888000):
         zoomstufe = 5;
         break;
-    case (middist<9776000): 
+    case (middist<9776000):
         zoomstufe = 4;
         break;
-    case (middist<1955100): 
+    case (middist<1955100):
         zoomstufe = 3;
         break;
-    case (middist<39103000): 
+    case (middist<39103000):
         zoomstufe = 2;
         break;
-    default: 
+    default:
         zoomstufe = 2;
 }
     var city = ol.proj.transform([ middlon,  middlat], 'EPSG:4326', 'EPSG:3857');
@@ -1519,6 +1518,7 @@ function setZiel(callback) {
     maper.setView(view);
             callback();
         });
+        }else{ zielosm = parseInt(sadres); ziellat =999; ziellon =999;}
     }
 }
 
@@ -1539,7 +1539,7 @@ function doSuche() {
 }
 
 function setRoutefromSuche() {
-    var path = "http://localhost:4567/route/";
+    var path = window.location.href + "/route/";
     var parameter = {
         algorithm: $("#routetyp").val(),
         startLatitude: startlat,
@@ -1572,7 +1572,7 @@ function getDist(lat1, lon1, lat2, lon2) {
 }
 
 function addNodeRoute(type, startNode, destinationNode) {
-    var path = "http://localhost:4567/route/";
+    var path = window.location.href + "/route/";
     var parameter = {
         algorithm: type,
         startNode: startNode,
@@ -1596,7 +1596,7 @@ function addNodeRoute(type, startNode, destinationNode) {
 }
 
 function addPointRoute(type, startLatitude, startLongitude, destinationLatitude, destinationLongitude) {
-    var path = "http://localhost:4567/route/";
+    var path = window.location.href + "/route/";
     var parameter = {
         algorithm: type,
         startLatitude: startLatitude,
