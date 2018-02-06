@@ -1431,7 +1431,7 @@ function setStart(callback) {
             });
             callback();
         });
-        }else{ startosm = parseInt(sadress);startlon=-999;startlat=-999;}
+        }else{ startosm = parseInt(sadress);startlon="-999";startlat="-999";}
     }
 }
 
@@ -1518,7 +1518,7 @@ function setZiel(callback) {
     maper.setView(view);
             callback();
         });
-        }else{ zielosm = parseInt(sadres); ziellat =999; ziellon =999;}
+        }else{ zielosm = parseInt(sadres); ziellat ="999"; ziellon ="999";}
     }
 }
 
@@ -1528,7 +1528,7 @@ function doSuche() {
     setStart(function() {
         setZiel(function() {
             if ((document.getElementById('startadresse').value != "") && (document.getElementById('zieladresse').value != "")) {
-                if((startlat!=-999)&&(startlon!=-999)&&(ziellat!=999)&&(ziellon!=999)){
+                if((startlat!="-999")&&(startlon!="-999")&&(ziellat!="999")&&(ziellon!="999")){
                 setRoutefromSuche();
             }else{
                 addNodeRoute($("#routetyp").val(), startosm,zielosm);
