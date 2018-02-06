@@ -1431,7 +1431,7 @@ function setStart(callback) {
             });
             callback();
         });
-        }else{ startosm = parseInt(sadress);startlon="-999";startlat="-999";}
+        }else{ startosm = parseInt(sadress);startlon="-999";startlat="-999";callback();}
     }
 }
 
@@ -1518,7 +1518,7 @@ function setZiel(callback) {
     maper.setView(view);
             callback();
         });
-        }else{ zielosm = parseInt(sadres); ziellat ="999"; ziellon ="999";}
+        }else{ zielosm = parseInt(sadress); ziellat ="999"; ziellon ="999";callback();}
     }
 }
 
@@ -1588,6 +1588,10 @@ function addNodeRoute(type, startNode, destinationNode) {
         drawZiel();
         //drawPoints();
         drawLines();
+        $("#main-loader").fadeOut(0);
+    }).fail(function(res) {
+        bootbox.alert(res.responseJSON.message);
+        $("#main-loader").fadeOut(0);
     });
 }
 
@@ -1610,6 +1614,10 @@ function addPointRoute(type, startLatitude, startLongitude, destinationLatitude,
         drawZiel();
         //drawPoints();
         drawLines();
+        $("#main-loader").fadeOut(0);
+    }).fail(function(res) {
+        bootbox.alert(res.responseJSON.message);
+        $("#main-loader").fadeOut(0);
     });
 }
 //example calls
