@@ -1539,7 +1539,7 @@ function doSuche() {
 }
 
 function setRoutefromSuche() {
-    var path = window.location.href + "/route/";
+    var path = window.location.href + "route/";
     var parameter = {
         algorithm: $("#routetyp").val(),
         startLatitude: startlat,
@@ -1572,17 +1572,13 @@ function getDist(lat1, lon1, lat2, lon2) {
 }
 
 function addNodeRoute(type, startNode, destinationNode) {
-    var path = window.location.href + "/route/";
+    var path = window.location.href + "route/";
     var parameter = {
         algorithm: type,
         startNode: startNode,
         destinationNode: destinationNode
     };
     $.getJSON(path + "?" + serialize(parameter), function(res) {
-        anzahlrouten++;
-        globalval[anzahlrouten] = [];
-        iconFeatures[anzahlrouten] = [];
-        markers[anzahlrouten] = [];
         $.each(res.data, function(id, val) {
             setPoint(val['lat'], val['lon']);
             setweight(val['w']);
@@ -1596,7 +1592,7 @@ function addNodeRoute(type, startNode, destinationNode) {
 }
 
 function addPointRoute(type, startLatitude, startLongitude, destinationLatitude, destinationLongitude) {
-    var path = window.location.href + "/route/";
+    var path = window.location.href + "route/";
     var parameter = {
         algorithm: type,
         startLatitude: startLatitude,
@@ -1605,10 +1601,6 @@ function addPointRoute(type, startLatitude, startLongitude, destinationLatitude,
         destinationLongitude: destinationLongitude
     };
     $.getJSON(path + "?" + serialize(parameter), function(res) {
-        anzahlrouten++;
-        globalval[anzahlrouten] = [];
-        iconFeatures[anzahlrouten] = [];
-        markers[anzahlrouten] = [];
         $.each(res.data, function(id, val) {
             setPoint(val['lat'], val['lon']);
             setweight(val['w']);
